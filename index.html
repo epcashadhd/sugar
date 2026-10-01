@@ -101,8 +101,8 @@ html,body,button,a,.stage-scroll,#scene{touch-action:manipulation}
   .guess-counter strong{font-size:34px}
   .guess-counter span{font-size:10px;white-space:nowrap}
   .guess-counter>div{gap:2px;min-width:42px}
-  .main-actions{grid-column:1/-1;grid-template-columns:minmax(0,1fr) 88px;gap:9px}
-  .main-actions button{min-height:45px;padding:9px;font-size:14px;border-radius:10px}
+  .main-actions{grid-column:1/-1;grid-template-columns:minmax(0,1fr) minmax(0,1fr) 52px;gap:7px}
+  .main-actions button{min-height:45px;padding:9px 5px;font-size:13px;border-radius:10px;white-space:nowrap}
   .answer-card{grid-column:1/-1;border:0;margin:0;padding:0;display:flex;align-items:baseline;gap:5px;flex-wrap:wrap}
   .answer-card p{margin:0 3px;gap:4px}.answer-card strong{font-size:20px}.answer-card small{font-size:11px;margin:0}.answer-kicker{font-size:11px}
   
@@ -127,9 +127,33 @@ html,body,button,a,.stage-scroll,#scene{touch-action:manipulation}
   .control-panel{align-self:end;grid-template-columns:minmax(0,1fr);gap:10px}
   .selected-food{grid-column:1;grid-row:1}
   .guess-counter{grid-column:1;grid-row:2;justify-content:center;gap:14px}
-  .main-actions{grid-column:1;grid-template-columns:1fr}
+  .main-actions{grid-column:1;grid-template-columns:repeat(2,minmax(0,1fr))}
+  .main-actions #reset-all{grid-column:1/-1}
   .answer-card{grid-column:1;line-height:1.35}
   
+}
+
+/* Dragging placed cubes to the bin only captures touches on the cube lanes. */
+.cube-tools{display:flex;align-items:center;gap:8px}
+.cube-trash{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;min-width:50px;min-height:58px;border:1px solid #c8cabc;border-radius:12px;background:transparent;color:#747967;padding:6px;touch-action:manipulation}
+.cube-trash small{font-size:10px;white-space:nowrap}
+.cube-trash:hover,.cube-trash.is-ready{background:#ece9df;border-color:#9d9c85}
+.cube-trash.is-over{background:#eee0d1;border-color:#a57c57;color:#845633;box-shadow:0 0 0 3px #b7916230}
+.cube-handles{position:absolute;inset:0;pointer-events:none}
+.cube-pickup{position:absolute;display:block;pointer-events:auto;touch-action:none;background:transparent;border:0;border-radius:8px;padding:0;cursor:grab;-webkit-user-select:none;user-select:none}
+.cube-pickup[hidden]{display:none}
+.cube-pickup:active:not(:disabled){transform:none;cursor:grabbing}
+body.removing-cube{cursor:grabbing}
+body.removing-cube .drag-cube span{background:#916944}
+@media(max-width:820px), (max-width:1024px) and (max-height:600px){
+  .exhibit-top{gap:8px}
+  .view-button{min-width:44px;padding-left:8px;padding-right:8px}
+  .exhibit-top .cube-source{width:128px;min-width:0;gap:7px;padding:6px 8px}
+  .exhibit-top .source-cube{width:25px;height:31px}
+  .exhibit-top .cube-source b{font-size:14px}
+  .exhibit-top .cube-source small{font-size:10px}
+  .cube-trash{min-width:44px;min-height:50px;padding:5px}
+  .cube-tools{gap:6px}
 }
 
 </style>
@@ -139,6 +163,7 @@ html,body,button,a,.stage-scroll,#scene{touch-action:manipulation}
   <svg class="svg-defs" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs>
     <symbol id="i-cube" viewBox="0 0 24 24"><path d="m12 2 9 5v10l-9 5-9-5V7Z M3 7l9 5 9-5M12 12v10"/></symbol>
     <symbol id="i-reset" viewBox="0 0 24 24"><path d="M4 10a8 8 0 1 1 1 7M4 4v6h6"/></symbol>
+    <symbol id="i-trash" viewBox="0 0 24 24"><path d="M3 6h18M9 6V3h6v3M5 6l1 15h12l1-15M10 10v7m4-7v7"/></symbol>
     <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></symbol>
     <symbol id="i-expand" viewBox="0 0 24 24"><path d="M8 3H3v5m13-5h5v5M3 16v5h5m13-5v5h-5"/></symbol>
     <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v6m0-10v1"/></symbol>
@@ -159,11 +184,12 @@ html,body,button,a,.stage-scroll,#scene{touch-action:manipulation}
     </section>
     <div class="workspace">
       <section class="exhibit" aria-label="五款食物與方糖的 3D 展示">
-        <div class="exhibit-top"><span class="view-controls"><button id="view-front" class="view-button active" aria-pressed="true">前方</button><button id="view-top" class="view-button" aria-pressed="false">俯視</button></span><button id="cube-source" class="cube-source" aria-label="加入一粒方糖，或拖放到指定食物前面"><svg class="source-cube" viewBox="0 0 64 64" aria-hidden="true"><path d="m32 7 23 13v26L32 59 9 46V20Z" fill="#fffcf5" stroke="#c7bfb0"/><path d="m9 20 23 13 23-13M32 33v26" fill="none" stroke="#c7bfb0"/><path d="m32 33 23-13v26L32 59Z" fill="#ddd5c7" opacity=".45"/></svg><span><b>拿一粒糖</b><small>拖落食物欄 · 或按一下</small></span></button></div>
+        <div class="exhibit-top"><span class="view-controls"><button id="view-front" class="view-button active" aria-pressed="true">前方</button><button id="view-top" class="view-button" aria-pressed="false">俯視</button></span><div class="cube-tools"><button id="cube-source" class="cube-source" aria-label="加入一粒方糖，或拖放到指定食物前面"><svg class="source-cube" viewBox="0 0 64 64" aria-hidden="true"><path d="m32 7 23 13v26L32 59 9 46V20Z" fill="#fffcf5" stroke="#c7bfb0"/><path d="m9 20 23 13 23-13M32 33v26" fill="none" stroke="#c7bfb0"/><path d="m32 33 23-13v26L32 59Z" fill="#ddd5c7" opacity=".45"/></svg><span><b>拿一粒糖</b><small>拖放或按一下</small></span></button><button id="cube-trash" class="cube-trash" aria-label="垃圾桶：拖入方糖或按一下減一粒" title="拖入方糖，或按一下減一粒"><svg aria-hidden="true"><use href="#i-trash"/></svg><small>−1 粒</small></button></div></div>
         <div class="stage-scroll" id="stage-scroll">
           <div class="stage" id="stage">
-            <canvas id="scene" aria-label="五款立體食物。可點選食物或拖方糖到食物前面；亦可使用加減按鈕。"></canvas>
+            <canvas id="scene" aria-label="五款立體食物。拖方糖到食物前面加入，拖已放低嘅方糖到垃圾桶減一粒；亦可使用加減按鈕。"></canvas>
             <div id="world-labels" class="world-labels"></div>
+            <div id="cube-handles" class="cube-handles" aria-label="拖動已放置嘅方糖"></div>
             <div class="loading" id="loading"><span class="loading-cube"><svg><use href="#i-cube"/></svg></span><p>正在準備展示枱…</p></div>
           </div>
         </div>
@@ -174,7 +200,7 @@ html,body,button,a,.stage-scroll,#scene{touch-action:manipulation}
         <div class="selected-food"><h2 id="selected-name">粟米片</h2><p class="serving" id="selected-serving">一碗 · 未加奶</p></div>
         <div class="guess-counter"><button id="minus" aria-label="減一粒方糖">−</button><div role="status" aria-live="polite" aria-atomic="true"><strong id="guess-count">0</strong><span>你估幾多粒</span></div><button id="plus" aria-label="加一粒方糖">＋</button></div>
         <div id="answer-card" class="answer-card" role="status" hidden><span class="answer-kicker">示範答案</span><p><strong id="answer-value">8</strong><span>粒等值</span></p><small id="answer-guess"></small></div>
-        <div class="main-actions"><button id="reveal-all" class="primary-button"><svg><use href="#i-eye"/></svg><span>揭曉全部答案</span></button><button id="reset-all" class="secondary-button"><svg><use href="#i-reset"/></svg>重來</button></div>
+        <div class="main-actions"><button id="reveal" class="primary-button"><span>揭曉呢款</span></button><button id="reveal-all" class="secondary-button"><span>揭曉全部</span></button><button id="reset-all" class="secondary-button">重來</button></div>
       </aside>
     </div>
   </main>
@@ -187,7 +213,7 @@ html,body,button,a,.stage-scroll,#scene{touch-action:manipulation}
     <p class="source-note">除白飯明確提及熟重 150 克外，其餘食物重量未註明。朱古力條品牌亦未確認。平台保留呢啲限制，唔會將示範值當成所有同類食物嘅固定答案。</p>
     <h3>展示數字與官方圖表</h3><p>PHC 圖表另列：粟米片 30 克＝8.4；烚白薯仔 150 克＝9.1；Basmati 熟飯 150 克＝10.1；香蕉 120 克＝5.7。份量、品種及煮法有指定條件，唔會混入本次影片示範答案。</p>
     <ul class="source-links"><li><a href="https://www.youtube.com/watch?v=zc8Nh4TMB1s&t=2340s" target="_blank" rel="noopener noreferrer">The Diary of a CEO · Dr David Unwin 原訪談（約 39 分鐘起）</a></li><li><a href="https://singjupost.com/diary-of-a-ceo-w-fatty-liver-expert-dr-david-unwin-transcript/" target="_blank" rel="noopener noreferrer">影片示範數字來源：第三方訪談逐字稿</a></li><li><a href="https://journalofmetabolichealth.org/index.php/jmh/article/view/8/11" target="_blank" rel="noopener noreferrer">Unwin、Haslam、Livesey（2016）· 升糖負荷換算方法</a></li><li><a href="https://phcuk.org/images/sugar/common-foods.jpg" target="_blank" rel="noopener noreferrer">PHC 官方常見食物圖表</a></li><li><a href="https://phcuk.org/images/sugar/breakfast-cereals.jpg" target="_blank" rel="noopener noreferrer">PHC 官方早餐穀物圖表</a></li></ul>
-    <p class="source-note">鍵盤操作：數字 1–5 選食物；＋／− 加減一粒；R 揭曉全部答案。系統減少動態效果設定會自動套用。</p>
+    <p class="source-note">鍵盤操作：數字 1–5 選食物；＋／− 加減一粒；R 揭曉所選食物；Shift＋R 揭曉全部答案。系統減少動態效果設定會自動套用。</p>
   </dialog>
   <script>
 (() => {
@@ -55643,8 +55669,12 @@ function updateUI() {
   $('answer-value').textContent = fmt(food.answer);
   const difference = count - food.answer;
   $('answer-guess').textContent = difference === 0 ? `你估 ${fmt(count)} 粒，與示範相同。` : `你估 ${fmt(count)} 粒 · ${difference > 0 ? '多' : '少'} ${fmt(Math.abs(difference))} 粒`;
+  $('reveal').disabled = revealed;
+  $('reveal').querySelector('span').textContent = revealed ? '已揭曉' : '揭曉呢款';
+  $('reveal').setAttribute('aria-label', revealed ? `${food.name}答案已揭曉` : `揭曉${food.name}嘅答案`);
+  $('cube-trash').setAttribute('aria-label', `垃圾桶：按一下減一粒${food.name}方糖，或拖入已放低嘅方糖`);
   $('reveal-all').disabled = state.revealed.length === FOODS.length;
-  $('reveal-all').querySelector('span').textContent = state.revealed.length === FOODS.length ? '答案已揭曉' : '揭曉全部答案';
+  $('reveal-all').querySelector('span').textContent = state.revealed.length === FOODS.length ? '全部已揭曉' : '揭曉全部';
   $('cube-source').setAttribute('aria-label', `加入一粒糖到${food.name}，或拖到其他食物欄`);
   $('stage-hint').textContent = state.revealed.length ? '金色數字係答案 · 保留你嘅估計' : ($('stage-scroll').scrollWidth > $('stage-scroll').clientWidth + 5 ? '左右滑動睇食物 · 拖糖到亮起嗰欄' : '選食物 · 拖糖到亮起嗰欄');
   document.querySelectorAll('.food-selector').forEach(button => {
@@ -55675,6 +55705,8 @@ for (const [index, food] of FOODS.entries()) {
 for (const [id, type] of [['plus','ADD'],['minus','REMOVE']]) {
   $(id).addEventListener('click', () => { dispatch({type}); });
 }
+$('reveal').addEventListener('click', () => { dispatch({type:'REVEAL'}); });
+$('cube-trash').addEventListener('click', () => { dispatch({type:'REMOVE'}); });
 $('reveal-all').addEventListener('click', () => { dispatch({type:'REVEAL_ALL'}); });
 $('reset-all').addEventListener('click', () => { dispatch({type:'RESET'}); });
 mobileLayout.addEventListener('change', updateUI);
@@ -55696,7 +55728,7 @@ document.addEventListener('keydown', event => {
   if (/^[1-5]$/.test(event.key)) {event.preventDefault();dispatch({type:'SELECT',id:FOODS[Number(event.key)-1].id});}
   if(event.key === '+' || event.key === '=') {event.preventDefault();dispatch({type:'ADD'});}
   if(event.key === '-') {event.preventDefault();dispatch({type:'REMOVE'});}
-  if(event.key.toLowerCase() === 'r') {event.preventDefault();dispatch({type:'REVEAL_ALL'});}
+  if(event.key.toLowerCase() === 'r') {event.preventDefault();dispatch({type:event.shiftKey ? 'REVEAL_ALL' : 'REVEAL'});}
 });
 
 class FoodStage {
@@ -55734,6 +55766,7 @@ class FoodStage {
     this.shadowTexture = this.makeShadow();
     this.laneHighlightTexture = this.makeLaneHighlight();
     this.dropTargetId = null;
+    this.removalDrag = null;
     this.setupLights();
     this.setupFloor();
     this.cubeGeometry = new RoundedBoxGeometry(.36,.36,.36,3,.033);
@@ -55810,7 +55843,10 @@ class FoodStage {
     lane.computeLineDistances();this.scene.add(lane);
     const cubes=new THREE.Group();this.scene.add(cubes);
     const label=document.createElement('div');label.className='scene-label';label.innerHTML='<span class="lane-number"></span><span class="lane-caption"></span><span class="guess-tag"></span>';$('world-labels').append(label);
-    this.items.set(food.id,{x,model,selectionWash,shadow,ring,lane,cubes,label,renderCount:null,renderRevealed:null});
+    const pickup=document.createElement('button');pickup.type='button';pickup.className='cube-pickup';pickup.dataset.food=food.id;
+    pickup.setAttribute('aria-label',`揀選${food.name}嘅方糖；拖到垃圾桶減一粒`);pickup.hidden=true;pickup.draggable=false;
+    pickup.style.touchAction='none';$('cube-handles').append(pickup);this.bindCubePickup(pickup,food.id);
+    this.items.set(food.id,{x,model,selectionWash,shadow,ring,lane,cubes,label,pickup,renderCount:null,renderRevealed:null});
   }
   setView(view) {
     this.view=view;
@@ -55837,6 +55873,80 @@ class FoodStage {
     for(const [id,item] of this.items){
       const p=this.project(new THREE.Vector3(item.x,0,4.55));item.label.style.left=`${p.x}px`;item.label.style.top=`${p.y}px`;
     }
+    this.positionCubePickups();
+  }
+  canRemoveCube(id) {
+    return this.items.has(id)&&state.counts[id]>0&&!state.revealed.includes(id);
+  }
+  positionCubePickups() {
+    for(const [id,item]of this.items){
+      if(!this.canRemoveCube(id)||!item.cubes.children.length){item.pickup.hidden=true;continue;}
+      const bounds=new THREE.Box3().setFromObject(item.cubes);
+      let left=Infinity,top=Infinity,right=-Infinity,bottom=-Infinity;
+      for(const x of [bounds.min.x,bounds.max.x])for(const y of [bounds.min.y,bounds.max.y])for(const z of [bounds.min.z,bounds.max.z]){
+        const p=this.project(new THREE.Vector3(x,y,z));
+        left=Math.min(left,p.x);top=Math.min(top,p.y);right=Math.max(right,p.x);bottom=Math.max(bottom,p.y);
+      }
+      if(right<0||left>this.width||bottom<0||top>this.height){item.pickup.hidden=true;continue;}
+      // Only the sugar row intercepts touch. The rest of the scene retains
+      // native horizontal scrolling and pinch gestures on small screens.
+      const width=Math.max(44,right-left+16),height=Math.max(44,bottom-top+16);
+      item.pickup.style.left=`${(left+right-width)/2}px`;item.pickup.style.top=`${(top+bottom-height)/2}px`;
+      item.pickup.style.width=`${width}px`;item.pickup.style.height=`${height}px`;item.pickup.hidden=false;
+    }
+  }
+  overCubeTrash(clientX,clientY) {
+    const rect=$('cube-trash').getBoundingClientRect();
+    return rect.width>0&&rect.height>0&&clientX>=rect.left&&clientX<=rect.right&&clientY>=rect.top&&clientY<=rect.bottom;
+  }
+  finishCubeRemoval() {
+    const active=this.removalDrag;if(!active)return;
+    this.removalDrag=null;
+    const ghost=$('drag-cube');ghost.hidden=true;ghost.querySelector('span').textContent='＋1';
+    document.body.classList.remove('removing-cube');$('cube-trash').classList.remove('is-ready','is-over');
+    this.setDropTarget(null);
+    if(active.handle.hasPointerCapture(active.pointerId))active.handle.releasePointerCapture(active.pointerId);
+  }
+  bindCubePickup(handle,id) {
+    handle.addEventListener('pointerdown',event=>{
+      if(event.button!==0||event.isPrimary===false||this.removalDrag||drag||!this.canRemoveCube(id))return;
+      event.stopPropagation();
+      this.removalDrag={id,handle,pointerId:event.pointerId,x:event.clientX,y:event.clientY,moved:false};
+      handle.setPointerCapture(event.pointerId);$('cube-trash').classList.add('is-ready');
+    });
+    handle.addEventListener('pointermove',event=>{
+      const active=this.removalDrag;if(!active||event.pointerId!==active.pointerId)return;
+      event.stopPropagation();
+      if(!this.canRemoveCube(active.id)){this.finishCubeRemoval();return;}
+      if(Math.hypot(event.clientX-active.x,event.clientY-active.y)>7)active.moved=true;
+      if(!active.moved)return;
+      if(event.cancelable)event.preventDefault();
+      const ghost=$('drag-cube');ghost.querySelector('span').textContent='−1';ghost.hidden=false;
+      ghost.style.left=`${event.clientX}px`;ghost.style.top=`${event.clientY-15}px`;
+      document.body.classList.add('removing-cube');this.setDropTarget(active.id);
+      $('cube-trash').classList.toggle('is-over',this.overCubeTrash(event.clientX,event.clientY));
+    });
+    handle.addEventListener('pointerup',event=>{
+      const active=this.removalDrag;if(!active||event.pointerId!==active.pointerId)return;
+      event.stopPropagation();
+      const moved=active.moved||Math.hypot(event.clientX-active.x,event.clientY-active.y)>7;
+      const remove=moved&&this.canRemoveCube(active.id)&&this.overCubeTrash(event.clientX,event.clientY);
+      // Capture belongs to the stable pickup button through pointerup, so the
+      // resulting click cannot also activate the trash button underneath it.
+      this.finishCubeRemoval();
+      if(remove){
+        if(state.selectedId!==active.id)dispatch({type:'SELECT',id:active.id});
+        if(this.canRemoveCube(active.id))dispatch({type:'REMOVE',id:active.id,value:1});
+      }else if(!moved&&this.canRemoveCube(active.id))dispatch({type:'SELECT',id:active.id});
+    });
+    const cancel=event=>{if(this.removalDrag?.pointerId===event.pointerId)this.finishCubeRemoval();};
+    handle.addEventListener('pointercancel',cancel);handle.addEventListener('lostpointercapture',cancel);
+    handle.addEventListener('click',event=>{
+      event.preventDefault();event.stopPropagation();
+      // Keyboard activation selects this row; the accessible trash button
+      // provides the same one-cube removal without requiring a drag gesture.
+      if(event.detail===0&&this.canRemoveCube(id))dispatch({type:'SELECT',id});
+    });
   }
   keepSelectedInView() {
     const item=this.items.get(state.selectedId);const p=this.project(new THREE.Vector3(item.x,0,-2));const scroll=$('stage-scroll');
@@ -55859,6 +55969,7 @@ class FoodStage {
     }
   }
   sync(previous) {
+    if(this.removalDrag&&!this.canRemoveCube(this.removalDrag.id))this.finishCubeRemoval();
     for(const food of FOODS){
       const item=this.items.get(food.id),revealed=state.revealed.includes(food.id),count=revealed?food.answer:state.counts[food.id];
       item.label.classList.toggle('selected',food.id===state.selectedId);item.label.classList.toggle('revealed',revealed);
@@ -55883,7 +55994,7 @@ class FoodStage {
         item.renderCount=count;item.renderRevealed=revealed;
       }
     }
-    this.updateLaneHighlight();this.invalidate();
+    this.camera.updateMatrixWorld();this.positionCubePickups();this.updateLaneHighlight();this.invalidate();
   }
   pointAt(clientX,clientY) {
     const bounds=this.canvas.getBoundingClientRect();
@@ -55909,6 +56020,9 @@ class FoodStage {
     });
     this.canvas.addEventListener('pointermove',event=>{this.canvas.style.cursor=this.pointAt(event.clientX,event.clientY)?'pointer':'default';});
     this.canvas.addEventListener('pointercancel',()=>start=null);
+    window.addEventListener('blur',()=>this.finishCubeRemoval());
+    document.addEventListener('visibilitychange',()=>{if(document.hidden)this.finishCubeRemoval();});
+    document.addEventListener('keydown',event=>{if(event.key==='Escape'&&this.removalDrag){event.preventDefault();this.finishCubeRemoval();}});
   }
   invalidate(){this.needsRender=true;}
   renderLoop() {
@@ -55936,8 +56050,9 @@ class FoodStage {
 let drag=null,suppressClick=false;
 const source=$('cube-source'),ghost=$('drag-cube');
 source.addEventListener('pointerdown',event=>{
-  if(event.button!==0||!stageScene||drag)return;
+  if(event.button!==0||!stageScene||drag||stageScene.removalDrag)return;
   suppressClick=false;
+  ghost.querySelector('span').textContent='＋1';
   drag={x:event.clientX,y:event.clientY,moved:false,id:null,pointerId:event.pointerId};
   source.setPointerCapture(event.pointerId);
 });
