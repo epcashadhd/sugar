@@ -29,132 +29,173 @@ THE SOFTWARE.
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#f3efe6">
   <meta name="description" content="以五款立體食物與可擺放的方糖，探索 Dr David Unwin 影片示範中的血糖影響等值。">
-  <title>幾多粒糖？ · Sugar Cube Studio</title>
+  <title>多少粒糖？ · Sugar Cube Studio</title>
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='12' fill='%232c5147'/%3E%3Cpath d='M20 7 32 14v13l-12 7-12-7V14Z' fill='%23f3efe6'/%3E%3Cpath d='m8 14 12 7 12-7M20 21v13' fill='none' stroke='%232c5147' stroke-width='2'/%3E%3C/svg%3E">
   <style>
 @charset "UTF-8";
-/* Allow scrolling and pinch zoom without double-tap magnification. */
-html,body,button,a,.stage-scroll,#scene{touch-action:manipulation}
-#cube-source{touch-action:none}
 :root{font-family:-apple-system,BlinkMacSystemFont,"PingFang HK","Noto Sans TC",sans-serif;color:#343a31;background:#f3efe6;font-synthesis:none;--ink:#343a31;--muted:#78796c;--green:#2f5548;--border:#ded9cd;--paper:#f9f6ee}
-*{box-sizing:border-box}body{margin:0}button,a,input{-webkit-tap-highlight-color:transparent}button{font:inherit;color:inherit;cursor:pointer}button:disabled{cursor:default;opacity:.35}button:focus-visible,a:focus-visible{outline:3px solid #b77b3f;outline-offset:4px}button{transition:background .16s,transform .16s}button:active:not(:disabled){transform:translateY(1px)}svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;flex:none}.svg-defs{position:absolute;width:0;height:0}.topbar{max-width:1700px;margin:auto;padding:24px 48px 20px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--border)}.brand{display:flex;align-items:center;gap:11px;text-decoration:none;color:var(--ink);font-size:12px;letter-spacing:.14em}.brand b{font-weight:400;color:var(--muted)}.brand-mark{display:grid;place-items:center;width:32px;height:32px;border:1px solid #777f6c;border-radius:8px}.brand-mark svg{width:21px;height:21px}nav{display:flex;gap:20px}.text-button{border:0;background:transparent;display:flex;gap:8px;align-items:center;padding:8px 0;font-size:14px}.text-button:hover{color:var(--green)}main{max-width:1700px;margin:auto;padding:30px 48px 0}.intro{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px}.eyebrow{font-size:11px;letter-spacing:.19em;font-weight:600;color:var(--muted);margin:0 0 12px}.intro h1{font-family:"Songti TC","Noto Serif TC",Georgia,serif;font-size:clamp(30px,3.1vw,49px);line-height:1.35;letter-spacing:.02em;font-weight:500;margin:0}.intro h1 em{font-style:normal;color:var(--green)}.intro-copy{font-size:15px;color:var(--muted);margin:13px 0 0;line-height:1.6}.edition{display:flex;align-items:center;gap:15px;font-size:10px;letter-spacing:.13em;line-height:1.9;color:var(--muted);padding-right:6px}.edition b{font-size:13px;font-weight:400;letter-spacing:.04em}.edition-line{width:40px;height:1px;background:#adae9f}.workspace{display:grid;grid-template-columns:minmax(0,1fr) 264px;gap:30px;align-items:start}.exhibit{min-width:0;position:relative}.exhibit-top{display:flex;justify-content:space-between;align-items:center;padding:0 6px;position:relative;z-index:2}.steps{list-style:none;display:flex;gap:26px;padding:0;margin:0;color:#858579;font-size:13px}.steps li{display:flex;gap:7px;align-items:center}.steps li span{font-size:11px;border:1px solid #d2cdbc;border-radius:50%;width:24px;height:24px;display:grid;place-items:center}.steps .current{color:var(--green)}.steps .current span{background:var(--green);color:white;border-color:var(--green)}.icon-button{width:34px;height:34px;display:grid;place-items:center;border:1px solid var(--border);border-radius:50%;background:transparent}.icon-button:hover{background:#e7e2d8}.stage-scroll{overflow-x:auto;overflow-y:hidden;scrollbar-width:thin}.stage{width:100%;height:clamp(340px,39vw,510px);position:relative}#scene{display:block;width:100%;height:100%;touch-action:manipulation;outline:none}.world-labels{position:absolute;inset:0;pointer-events:none}.scene-label{position:absolute;transform:translate(-50%,-50%);white-space:nowrap;display:flex;flex-direction:column;align-items:center;gap:5px;font-size:12px;color:#8d8c7e}.scene-label .lane-number{font-family:Georgia,serif;font-size:25px;line-height:1;color:#7b8271}.scene-label .lane-number small{font:12px -apple-system,sans-serif;margin-left:4px}.scene-label.selected .lane-number{color:var(--green)}.scene-label.revealed .lane-number{color:#916835}.scene-label .lane-caption{font-size:11px;letter-spacing:.03em}.scene-label .guess-tag{font-size:11px;color:#76796c}.loading{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;background:#f3efe6;color:var(--muted);font-size:14px;z-index:4}.loading-cube svg{width:40px;height:40px;animation:float 1.8s infinite ease-in-out}.loading.error{padding:30px;text-align:center;line-height:1.8}.loading[hidden]{display:none}.stage-caption{display:flex;justify-content:space-between;align-items:center;margin:0 7px 18px;font-size:12px;color:var(--muted)}.stage-caption>span{display:flex;align-items:center;gap:7px}.stage-caption svg{width:17px;height:17px}.view-controls{padding:3px;border-radius:20px;border:1px solid var(--border)}.view-button{font-size:12px;background:none;border:none;border-radius:18px;padding:5px 11px}.view-button.active{background:#e4e4d8;color:var(--green)}.food-selectors{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;padding-top:0}.food-selector{background:transparent;text-align:left;border:1px solid transparent;border-top:1px solid var(--border);border-radius:0 0 10px 10px;padding:15px 12px 12px;min-width:0}.food-selector:hover{background:#eeeadf}.food-selector.selected{border-color:#9baf9b;background:#e9eddf;border-radius:10px}.food-selector .selector-top{display:flex;align-items:center;justify-content:space-between;gap:6px}.food-selector strong{font-size:16px;font-weight:500}.food-selector .selector-index{font-size:10px;color:#8a8d7b;font-family:Georgia,serif}.food-selector .en-name{font-family:Georgia,serif;font-size:12px;display:block;color:var(--muted);margin-top:4px}.food-selector .selector-score{display:block;font-size:12px;color:var(--muted);margin-top:12px}.food-selector.revealed .selector-score{color:#896036}.food-selector.selected strong{color:var(--green)}.control-panel{background:rgba(250,248,241,.8);border:1px solid #e1ddcf;border-radius:16px;padding:23px 20px 15px;box-shadow:0 12px 30px #4f412008}.panel-top{display:flex;justify-content:space-between;align-items:baseline}.panel-top .eyebrow{font-size:10px}.food-index{font-size:11px;color:#99998c}.control-panel h2{font-family:"Songti TC",Georgia,serif;font-size:28px;font-weight:500;margin:2px 0 7px}.serving{font-size:12px;color:var(--muted);margin:0;min-height:18px}.guess-counter{display:flex;align-items:center;justify-content:space-between;padding:26px 0 15px}.guess-counter button{width:39px;height:39px;display:grid;place-items:center;background:transparent;border:1px solid #d8d8c9;border-radius:50%;font-size:22px}.guess-counter button:hover:not(:disabled){background:#e8edde;border-color:#a8b69b}.guess-counter>div{display:flex;flex-direction:column;align-items:center;gap:5px}.guess-counter strong{font-family:Georgia,serif;font-size:58px;font-weight:400;line-height:1;color:var(--green);font-variant-numeric:tabular-nums}.guess-counter span{font-size:12px;color:var(--muted)}.half-controls{display:flex;gap:8px}.half-controls button{width:50%;background:transparent;border:1px solid var(--border);border-radius:6px;padding:7px;font-size:13px}.half-controls button:hover{background:#efecdf}.cube-source{display:flex;align-items:center;gap:12px;width:100%;padding:13px 10px;background:#f0ece2;border:1px dashed #c9c8b5;border-radius:9px;margin:18px 0 13px;text-align:left;cursor:grab;touch-action:none;user-select:none}.cube-source:hover{background:#e9ecdf;border-color:#8eaa92}.cube-source .source-cube{width:39px;height:43px;stroke-width:1}.cube-source b{font-size:13px;font-weight:500;display:block}.cube-source small{font-size:10px;line-height:1.6;color:var(--muted);display:block;margin-top:4px}.unit-note{display:flex;gap:8px;align-items:flex-start;margin-bottom:19px;color:#777d69}.unit-note svg{width:15px;height:15px;margin-top:2px}.unit-note p{font-size:10px;line-height:1.7;margin:0}.unit-note b{font-weight:400}.primary-button,.secondary-button{width:100%;display:flex;justify-content:center;align-items:center;gap:9px;padding:12px 8px;border:1px solid var(--green);border-radius:8px;font-size:14px}.primary-button{background:var(--green);color:#f7f6ed}.primary-button:hover{background:#244538}.secondary-button{margin-top:8px;background:transparent;border-color:#cecfbf;color:var(--green)}.secondary-button:hover{background:#edf0e2}.primary-button svg{width:17px;height:17px}.reset-actions{display:flex;justify-content:center;gap:9px;align-items:center;margin-top:15px;color:var(--muted)}.reset-actions button{border:none;background:none;padding:4px 0;display:flex;align-items:center;gap:4px;font-size:11px}.reset-actions span{font-size:12px}.reset-actions svg{width:12px;height:12px}.answer-card{border-top:1px solid #d9cfb9;margin:0 0 15px;padding-top:12px}.answer-kicker{font-size:11px;color:#8a6b43}.answer-card p{display:flex;align-items:baseline;gap:8px;margin:5px 0}.answer-card strong{font:36px Georgia,serif;color:#946731}.answer-card p span{font-size:12px;color:#8a6b43}.answer-card small{font-size:12px;color:var(--muted)}.footer{display:flex;align-items:center;justify-content:space-between;gap:30px;margin-top:30px;padding:18px 0 23px;border-top:1px solid var(--border);color:var(--muted)}.footer p{max-width:870px;font-size:12px;line-height:1.8;margin:0}.footer b{font-weight:500;color:#626c57}.footer>span{font-size:9px;letter-spacing:.12em;white-space:nowrap}.drag-cube{position:fixed;z-index:40;pointer-events:none;transform:translate(-50%,-50%);filter:drop-shadow(0 10px 10px #34403330);color:#6f7862}.drag-cube svg{width:42px;height:42px;fill:#fffaf0;stroke-width:.8}.drag-cube span{font-size:11px;position:absolute;right:-15px;top:0;background:#355649;border-radius:50%;padding:4px;color:white}.drop-overlay{position:absolute;pointer-events:none;bottom:23%;transform:translateX(-50%);width:100px;height:100px;border:2px dashed #719078;border-radius:22px;background:#a9c49b20}.drop-overlay[hidden]{display:none}dialog{color:var(--ink);background:#fbf8f0;border:1px solid #d6d5c7;border-radius:20px;width:min(760px,calc(100% - 32px));padding:38px;max-height:85vh;box-shadow:0 25px 100px #1a25184a}dialog::backdrop{background:#26302466;backdrop-filter:blur(5px)}.dialog-close{position:absolute;right:20px;top:18px}dialog h2{font-family:"Songti TC",Georgia,serif;font-size:34px;font-weight:500;margin:12px 0 20px}dialog h3{font-size:17px;font-weight:500;margin-top:26px}dialog p{font-size:15px;line-height:1.9}.source-note{color:var(--muted);font-size:13px!important}.table-scroll{overflow:auto}table{border-collapse:collapse;width:100%;font-size:14px;line-height:1.7}th,td{text-align:left;padding:12px 10px;border-bottom:1px solid var(--border)}th{font-weight:500;color:var(--muted);font-size:12px}td:last-child{color:var(--green);font-weight:600;white-space:nowrap}.source-links{padding-left:20px;font-size:14px;line-height:1.8}.source-links li{margin:9px 0}.source-links a{color:var(--green);text-underline-offset:3px}.presentation .topbar{padding-top:12px;padding-bottom:12px}.presentation .intro{margin-bottom:10px}.presentation .intro-copy,.presentation .edition,.presentation .eyebrow,.presentation .footer>span{display:none}.presentation main{padding-top:18px}.presentation .intro h1{font-size:34px}.presentation .stage{height:clamp(390px,50vh,660px)}.presentation .footer{margin-top:15px}.presentation .food-selector strong{font-size:19px}.presentation .scene-label .lane-number{font-size:32px}.presentation .footer p{font-size:14px}.presentation .workspace{gap:20px}
-.steps,.serving,.half-controls button,.cube-source b,.reset-actions button,.stage-caption,.view-button{font-size:14px}.guess-counter span,.unit-note p,.cube-source small,.scene-label .lane-caption,.scene-label .guess-tag,.food-selector .selector-score,.footer p{font-size:12px}.food-selector .en-name{font-size:13px}.unit-note{line-height:1.7}.cube-source small{line-height:1.6}.intro-copy{max-width:none}
-@keyframes float{50%{transform:translateY(-8px) rotate(8deg)}}
-@media(min-width:1500px){.stage{height:550px}.workspace{grid-template-columns:minmax(0,1fr) 280px;gap:40px}.control-panel{padding:25px}.intro{margin-bottom:30px}main{padding-top:36px}.food-selector{padding:16px}}
-@media(max-width:1100px){.topbar{padding:20px 25px}main{padding:25px 25px 0}.workspace{gap:18px;grid-template-columns:minmax(0,1fr) 240px}.control-panel{padding:19px 16px 14px}.stage{height:380px;min-width:650px}.steps{gap:12px}.steps li{font-size:12px}.food-selector{padding:13px 5px}.food-selector strong{font-size:14px}.food-selector .en-name{font-size:11px}.footer>span{display:none}.edition{font-size:9px}.intro-copy{font-size:14px}}
-@media(max-width:820px){.topbar{padding:17px 20px}.brand{font-size:10px;letter-spacing:.08em}.brand b{display:none}nav{gap:15px}.text-button{font-size:12px}.text-button svg{width:17px;height:17px}main{padding:24px 20px 0}.intro{margin-bottom:20px}.intro h1{font-size:32px}.intro-copy{max-width:280px}.edition{display:none}.workspace{grid-template-columns:1fr;gap:24px}.stage{min-width:700px;height:400px}.food-selectors{gap:4px}.food-selector .selector-index{display:none}.food-selector{padding:12px 5px}.control-panel{display:grid;grid-template-columns:1fr 1fr;column-gap:24px;padding:22px}.panel-top{grid-column:1/-1}.control-panel h2,.serving,.guess-counter,.half-controls{grid-column:1}.guess-counter{padding:15px 0}.cube-source{grid-column:2;grid-row:2/5;margin:0;align-self:center;flex-direction:column;text-align:center;padding:14px}.cube-source .source-cube{width:48px;height:52px}.unit-note{grid-column:2;grid-row:5/7;margin:0;align-self:center}.primary-button,.secondary-button{margin-top:18px}.reset-actions{grid-column:1/-1}.answer-card{grid-column:1/-1;margin-top:15px}.answer-card p{display:inline-flex;margin:0 12px}.answer-card .answer-kicker{display:inline-block}.stage-caption{font-size:11px}.footer{margin-top:22px}.food-selector .selector-score{font-size:11px}.presentation .stage{height:430px}.presentation .intro h1{font-size:29px}}
-@media(max-width:440px){.topbar{padding:14px 16px}.brand-mark{width:29px;height:29px}.brand{gap:7px}.text-button{gap:4px;font-size:11px}nav{gap:12px}main{padding:21px 16px 0}.intro h1{font-size:28px}.intro-copy{font-size:13px}.steps{gap:15px}.steps li{gap:5px;font-size:11px}.steps li span{width:21px;height:21px;font-size:9px}.stage{min-width:650px;height:370px}.food-selector strong{font-size:13px}.food-selector .en-name{font-size:9px}.food-selector .selector-score{font-size:10px}.food-selector{padding:11px 3px}.control-panel{column-gap:18px;padding:20px 16px}.cube-source small{font-size:10px}.unit-note p{font-size:10px}.stage-caption>span:first-child{max-width:210px}.view-button{font-size:11px;padding:5px 9px}dialog{padding:29px 21px}dialog h2{font-size:28px}th,td{padding:10px 6px}.serving{font-size:11px}}
-@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
-
-/* Keep the sugar source beside the scene and the main actions in one place. */
-.exhibit-top{min-height:70px;gap:16px;align-items:center;padding:0 0 10px}
-.exhibit-top .cube-source{width:auto;min-width:170px;min-height:58px;margin:0;padding:9px 13px;gap:10px;background:#fbf8f0;border:1px solid #b6c2aa;border-radius:12px;box-shadow:0 4px 14px #314f4310;flex-direction:row;grid-area:auto;align-self:auto;text-align:left}
-.exhibit-top .cube-source:hover{background:#e8eede;border-color:#7e9b7b}
-.exhibit-top .source-cube{width:33px;height:39px}
-.exhibit-top .cube-source b{font-size:16px;letter-spacing:.02em}
-.exhibit-top .cube-source small{font-size:11px;margin-top:3px}
-.view-button{min-width:49px;min-height:40px}
-.stage-caption{min-height:22px;margin-bottom:13px}
-.control-panel{align-self:start;display:block;padding:23px 20px}
-.selected-food h2{margin:0 0 6px}
-.guess-counter button{width:44px;height:44px}
-.guess-counter{gap:10px;padding:24px 0}
-.main-actions{display:grid;gap:8px}
-.main-actions button{min-height:46px;margin:0}
-.answer-card[hidden]{display:none}
-.answer-card{margin:0 0 16px}
-.answer-card p{display:inline-flex;margin:0 8px}
-.answer-card strong{font-size:25px}
-.answer-card small{display:block;margin-top:5px}
-
-/* One mobile screen: the controls share the scene's background. */
-@media(max-width:820px), (max-width:1024px) and (max-height:600px){
-  html{height:100%;overflow:hidden;overscroll-behavior:none;scroll-padding:0}
-  body{height:100vh;height:100dvh;overflow:hidden;overscroll-behavior:none;display:flex;flex-direction:column;padding:0}
-  .topbar,.presentation .topbar{flex:none;width:100%;margin:0;padding:5px max(16px,env(safe-area-inset-right)) 5px max(16px,env(safe-area-inset-left));min-height:47px}
-  .brand{font-size:10px;letter-spacing:.06em;gap:7px}.brand b{display:none}.brand-mark{width:29px;height:29px}
-  nav{gap:13px}.text-button{min-height:36px;font-size:11px;gap:4px}.text-button svg{width:16px;height:16px}
-  main,.presentation main{flex:1;min-height:0;width:100%;margin:0;display:flex;flex-direction:column;padding:12px max(16px,env(safe-area-inset-right)) max(12px,env(safe-area-inset-bottom)) max(16px,env(safe-area-inset-left))}
-  .intro,.presentation .intro{flex:none;margin-bottom:9px}
-  .intro .eyebrow,.edition,.intro-copy{display:none}
-  .intro h1,.presentation .intro h1{font-size:28px}
-  .workspace,.presentation .workspace{flex:1;min-height:0;display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:minmax(0,1fr) auto;gap:14px;align-items:stretch}
-  .exhibit{min-height:0;display:grid;grid-template-rows:auto minmax(0,1fr) auto auto}
-  .exhibit-top{min-height:60px;padding:0 0 4px}
-  .exhibit-top .cube-source{min-width:154px;min-height:54px;padding:7px 11px}
-  .exhibit-top .cube-source b{font-size:15px}.exhibit-top .cube-source small{font-size:10px}
-  .exhibit-top .source-cube{width:30px;height:35px}
-  .stage-scroll{min-height:0;overscroll-behavior:contain}
-  .stage,.presentation .stage{min-width:650px;height:100%}
-  .stage-caption{font-size:11px;margin:3px 0 7px;min-height:20px}.stage-caption>span:first-child{max-width:none}
-  .food-selectors{gap:5px}
-  .food-selector{padding:10px 2px;min-height:44px;text-align:center;border-radius:8px;border:1px solid var(--border)}
-  .food-selector .selector-top{justify-content:center}.food-selector strong,.presentation .food-selector strong{font-size:13px;font-weight:500}
-  .food-selector .en-name,.food-selector .selector-score,.food-selector .selector-index{display:none}
-  .food-selector.selected{border-color:#839e82;background:#e1e9d6;border-radius:8px}
-  .control-panel{position:static;align-self:stretch;display:grid;grid-template-columns:minmax(0,1fr) 162px;column-gap:12px;row-gap:10px;border:0;border-radius:0;padding:0;background:transparent;box-shadow:none;backdrop-filter:none;-webkit-backdrop-filter:none}
-  .selected-food{min-width:0;align-self:center}
-  .selected-food h2{font-size:20px;margin:0 0 4px}
-  .serving{font-size:11px;line-height:1.4;min-height:0}
-  .guess-counter{grid-column:2;grid-row:1;gap:6px;padding:0}
-  .guess-counter button{width:44px;height:44px;flex:none;font-size:24px;background:transparent}
-  .guess-counter strong{font-size:34px}
-  .guess-counter span{font-size:10px;white-space:nowrap}
-  .guess-counter>div{gap:2px;min-width:42px}
-  .main-actions{grid-column:1/-1;grid-template-columns:minmax(0,1fr) minmax(0,1fr) 52px;gap:7px}
-  .main-actions button{min-height:45px;padding:9px 5px;font-size:13px;border-radius:10px;white-space:nowrap}
-  .answer-card{grid-column:1/-1;border:0;margin:0;padding:0;display:flex;align-items:baseline;gap:5px;flex-wrap:wrap}
-  .answer-card p{margin:0 3px;gap:4px}.answer-card strong{font-size:20px}.answer-card small{font-size:11px;margin:0}.answer-kicker{font-size:11px}
-  
-  dialog{max-height:calc(100dvh - 24px);overflow:auto;overscroll-behavior:contain}
-}
-@media(max-width:820px) and (max-height:720px) and (orientation:portrait){
-  main,.presentation main{padding-top:8px}
-  .intro h1,.presentation .intro h1{font-size:25px}
-  .intro,.presentation .intro{margin-bottom:6px}
-  .exhibit-top{min-height:54px}.exhibit-top .cube-source{min-height:50px}
-  .workspace,.presentation .workspace{gap:10px}
-  .stage-caption{display:none}
-}
-@media(max-width:1024px) and (max-height:600px) and (orientation:landscape){
-  .topbar,.presentation .topbar{min-height:42px;padding-top:3px;padding-bottom:3px}
-  .intro{display:none}
-  main,.presentation main{padding-top:6px;padding-bottom:max(8px,env(safe-area-inset-bottom))}
-  .workspace,.presentation .workspace{grid-template-columns:minmax(0,1fr) 210px;grid-template-rows:minmax(0,1fr);gap:16px}
-  .exhibit{grid-template-rows:auto minmax(0,1fr) auto}
-  .exhibit-top{min-height:54px}.exhibit-top .cube-source{min-height:50px}
-  .stage-caption{display:none}
-  .control-panel{align-self:end;grid-template-columns:minmax(0,1fr);gap:10px}
-  .selected-food{grid-column:1;grid-row:1}
-  .guess-counter{grid-column:1;grid-row:2;justify-content:center;gap:14px}
-  .main-actions{grid-column:1;grid-template-columns:repeat(2,minmax(0,1fr))}
-  .main-actions #reset-all{grid-column:1/-1}
-  .answer-card{grid-column:1;line-height:1.35}
-  
-}
-
-/* Dragging placed cubes to the bin only captures touches on the cube lanes. */
-.cube-tools{display:flex;align-items:center;gap:8px}
-.cube-trash{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;min-width:50px;min-height:58px;border:1px solid #c8cabc;border-radius:12px;background:transparent;color:#747967;padding:6px;touch-action:manipulation}
-.cube-trash small{font-size:10px;white-space:nowrap}
-.cube-trash:hover,.cube-trash.is-ready{background:#ece9df;border-color:#9d9c85}
-.cube-trash.is-over{background:#eee0d1;border-color:#a57c57;color:#845633;box-shadow:0 0 0 3px #b7916230}
+*{box-sizing:border-box}
+body{margin:0}
+/* Keep pinch gestures, while repeated taps operate the controls without zooming. */
+html,body,button,a,.stage-scroll,#scene{touch-action:manipulation}
+button,a{-webkit-tap-highlight-color:transparent}
+button{font:inherit;color:inherit;cursor:pointer;transition:background .16s,transform .16s}
+button:disabled{cursor:default;opacity:.35}
+button:focus-visible,a:focus-visible{outline:3px solid #b77b3f;outline-offset:4px}
+button:active:not(:disabled){transform:translateY(1px)}
+svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.svg-defs{position:absolute;width:0;height:0}
+.topbar{max-width:1700px;margin:auto;padding:24px 48px 20px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--border)}
+.brand{display:flex;align-items:center;gap:11px;text-decoration:none;color:var(--ink);font-size:14px;letter-spacing:.12em}
+.brand-mark{display:grid;place-items:center;width:32px;height:32px;border:1px solid #777f6c;border-radius:8px}
+.brand-mark svg{width:21px;height:21px}
+.text-button{border:0;background:transparent;display:flex;gap:8px;align-items:center;padding:8px 0;font-size:14px;min-height:44px}
+.text-button:hover{color:var(--green)}
+main{max-width:1700px;margin:auto;padding:30px 48px 24px}
+.intro{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}
+.eyebrow{font-size:11px;letter-spacing:.19em;font-weight:500;color:var(--muted);margin:0 0 12px}
+.intro h1{font-family:"Songti TC","Noto Serif TC",Georgia,serif;font-size:clamp(30px,3.1vw,49px);line-height:1.35;letter-spacing:.02em;font-weight:500;margin:0}
+.intro h1 em{font-style:normal;color:var(--green)}
+.intro-copy{font-size:15px;color:var(--muted);margin:13px 0 0;line-height:1.6}
+.edition{display:flex;align-items:center;gap:15px;font-size:10px;letter-spacing:.13em;line-height:1.9;color:var(--muted)}
+.edition b{font-size:13px;font-weight:400;letter-spacing:.04em}
+.edition-line{width:40px;height:1px;background:#adae9f}
+.workspace{display:grid;grid-template-columns:minmax(0,1fr) 264px;gap:30px;align-items:start}
+.exhibit{min-width:0;position:relative}
+.exhibit-top{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:0;position:relative;z-index:2;min-height:98px}
+.view-controls{display:flex;padding:3px;border-radius:25px;border:1px solid var(--border)}
+.view-button{display:grid;place-items:center;background:none;border:none;border-radius:22px;width:44px;height:44px;padding:10px}
+.view-button svg{width:23px;height:23px}
+.view-button.active{background:#e1e7d9;color:var(--green)}
+.cube-tools{display:grid;grid-template-columns:44px auto 44px;align-items:center;column-gap:7px;row-gap:0}
+.jar-caption{grid-column:2;text-align:center;white-space:nowrap;font-size:11px;line-height:1.4;color:var(--muted);padding-bottom:4px}
+.count-button{width:44px;height:44px;display:grid;place-items:center;background:transparent;border:1px solid #c6cbbb;border-radius:50%;font-size:25px;line-height:1;padding:0}
+.count-button:hover:not(:disabled){background:#e5ecdc;border-color:#8ca284}
+.sugar-jar{width:88px;height:98px;display:grid;place-items:center;border-radius:24px;cursor:grab;touch-action:none;user-select:none;-webkit-user-select:none;transition:background .2s,box-shadow .2s}
+.sugar-jar .jar-art{width:82px;height:94px;fill:none;stroke:none;pointer-events:none}
+.sugar-jar:hover,.sugar-jar.is-ready{background:#e7ecdf70}
+.sugar-jar.is-over{background:#dbe7cd;box-shadow:0 0 0 3px #9eb88b45}
+.sugar-jar.is-dragging{cursor:grabbing}
+.stage-scroll{overflow-x:auto;overflow-y:hidden;scrollbar-width:thin}
+.stage{width:100%;height:clamp(340px,36vw,490px);position:relative}
+#scene{display:block;width:100%;height:100%;outline:none}
+.world-labels{position:absolute;inset:0;pointer-events:none}
+.scene-label{position:absolute;transform:translate(-50%,-50%);white-space:nowrap;display:flex;flex-direction:column;align-items:center;gap:5px;font-size:12px;color:#8d8c7e}
+.scene-label .lane-number{font-family:Georgia,serif;font-size:25px;line-height:1;color:#7b8271}
+.scene-label .lane-number small{font:12px -apple-system,sans-serif;margin-left:4px}
+.scene-label.selected .lane-number{color:var(--green)}
+.scene-label.revealed .lane-number{color:#916835}
+.scene-label .lane-caption,.scene-label .guess-tag{font-size:12px;color:#76796c}
 .cube-handles{position:absolute;inset:0;pointer-events:none}
 .cube-pickup{position:absolute;display:block;pointer-events:auto;touch-action:none;background:transparent;border:0;border-radius:8px;padding:0;cursor:grab;-webkit-user-select:none;user-select:none}
 .cube-pickup[hidden]{display:none}
 .cube-pickup:active:not(:disabled){transform:none;cursor:grabbing}
 body.removing-cube{cursor:grabbing}
-body.removing-cube .drag-cube span{background:#916944}
+.loading{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;background:#f3efe6;color:var(--muted);font-size:14px;z-index:4}
+.loading-cube svg{width:40px;height:40px;animation:float 1.8s infinite ease-in-out}
+.loading.error{padding:30px;text-align:center;line-height:1.8}
+.loading[hidden]{display:none}
+.stage-caption{display:flex;align-items:center;min-height:22px;margin:0 7px 13px;font-size:12px;color:var(--muted)}
+.stage-caption>span{display:flex;align-items:center;gap:7px}
+.stage-caption svg{width:17px;height:17px}
+.food-selectors{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}
+.food-selector{background:transparent;text-align:left;border:1px solid transparent;border-top:1px solid var(--border);border-radius:0 0 10px 10px;padding:15px 10px 12px;min-width:0}
+.food-selector:hover{background:#eeeadf}
+.food-selector.selected{border-color:#9baf9b;background:#e9eddf;border-radius:10px}
+.food-selector .selector-top{display:flex;align-items:center;justify-content:space-between;gap:6px}
+.food-selector strong{font-size:16px;font-weight:500}
+.food-selector .selector-index{font-size:10px;color:#8a8d7b;font-family:Georgia,serif}
+.food-selector .selector-score{display:block;font-size:11px;color:var(--muted);margin-top:12px}
+.food-selector.revealed .selector-score{color:#896036}
+.food-selector.selected strong{color:var(--green)}
+.control-panel{align-self:start;background:rgba(250,248,241,.8);border:1px solid #e1ddcf;border-radius:16px;padding:23px 20px;box-shadow:0 12px 30px #4f412008}
+.selected-food h2{font-family:"Songti TC",Georgia,serif;font-size:28px;font-weight:500;margin:0 0 6px}
+.serving{font-size:13px;color:var(--muted);margin:0;line-height:1.5}
+.guess-counter{display:flex;align-items:center;justify-content:center;padding:24px 0}
+.guess-counter>div{display:flex;flex-direction:column;align-items:center;gap:5px}
+.guess-counter strong{font-family:Georgia,serif;font-size:58px;font-weight:400;line-height:1;color:var(--green);font-variant-numeric:tabular-nums}
+.guess-counter span{font-size:12px;color:var(--muted);white-space:nowrap}
+.main-actions{display:grid;grid-template-columns:1fr 44px;gap:8px}
+.primary-button,.secondary-button{display:flex;justify-content:center;align-items:center;gap:9px;min-height:46px;padding:12px 8px;border:1px solid var(--green);border-radius:8px;font-size:14px}
+.primary-button{background:var(--green);color:#f7f6ed}
+.primary-button:hover{background:#244538}
+.secondary-button{background:transparent;border-color:#cecfbf;color:var(--green)}
+.secondary-button:hover{background:#edf0e2}
+#reveal{grid-column:1/-1}
+.reset-button svg{width:21px;height:21px}
+.answer-card{border-top:1px solid #d9cfb9;margin:0 0 16px;padding-top:12px}
+.answer-card[hidden]{display:none}
+.answer-kicker{font-size:11px;color:#8a6b43}
+.answer-card p{display:inline-flex;align-items:baseline;gap:8px;margin:0 8px}
+.answer-card strong{font:25px Georgia,serif;color:#946731}
+.answer-card p span{font-size:12px;color:#8a6b43}
+.answer-card small{display:block;font-size:12px;color:var(--muted);margin-top:5px}
+.drag-cube{position:fixed;z-index:40;pointer-events:none;transform:translate(-50%,-50%);filter:drop-shadow(0 10px 10px #34403330);color:#6f7862}
+.drag-cube svg{width:42px;height:42px;fill:#fffaf0;stroke-width:.8}
+.drag-cube span{font-size:11px;position:absolute;right:-15px;top:0;background:#355649;border-radius:50%;padding:4px;color:white}
+.icon-button{width:44px;height:44px;display:grid;place-items:center;border:1px solid var(--border);border-radius:50%;background:transparent}
+dialog{color:var(--ink);background:#fbf8f0;border:1px solid #d6d5c7;border-radius:20px;width:min(760px,calc(100% - 32px));padding:38px;max-height:85vh;box-shadow:0 25px 100px #1a25184a}
+dialog::backdrop{background:#26302466;backdrop-filter:blur(5px)}
+.dialog-close{position:absolute;right:20px;top:18px}
+dialog h2{font-family:"Songti TC",Georgia,serif;font-size:34px;font-weight:500;margin:12px 0 20px}
+dialog h3{font-size:17px;font-weight:500;margin-top:26px}
+dialog p{font-size:15px;line-height:1.9}
+.source-note{color:var(--muted);font-size:13px!important}
+.table-scroll{overflow:auto}
+table{border-collapse:collapse;width:100%;font-size:14px;line-height:1.7}
+th,td{text-align:left;padding:12px 10px;border-bottom:1px solid var(--border)}
+th{font-weight:500;color:var(--muted);font-size:12px}
+td:last-child{color:var(--green);font-weight:600;white-space:nowrap}
+.source-links{padding-left:20px;font-size:14px;line-height:1.8}
+.source-links li{margin:9px 0}
+.source-links a{color:var(--green);text-underline-offset:3px}
+@keyframes float{50%{transform:translateY(-8px) rotate(8deg)}}
+@media(min-width:1500px){.stage{height:530px}.workspace{grid-template-columns:minmax(0,1fr) 280px;gap:40px}.control-panel{padding:25px}.intro{margin-bottom:30px}main{padding-top:36px}}
+@media(max-width:1100px){.topbar{padding:16px 25px}main{padding:22px 25px}.workspace{gap:18px;grid-template-columns:minmax(0,1fr) 240px}.control-panel{padding:19px 16px}.stage{height:380px;min-width:650px}.food-selector{padding:13px 5px}.food-selector strong{font-size:14px}.edition{font-size:9px}.intro-copy{font-size:14px}}
+/* Mobile controls sit on the same background and remain within one screen. */
 @media(max-width:820px), (max-width:1024px) and (max-height:600px){
-  .exhibit-top{gap:8px}
-  .view-button{min-width:44px;padding-left:8px;padding-right:8px}
-  .exhibit-top .cube-source{width:128px;min-width:0;gap:7px;padding:6px 8px}
-  .exhibit-top .source-cube{width:25px;height:31px}
-  .exhibit-top .cube-source b{font-size:14px}
-  .exhibit-top .cube-source small{font-size:10px}
-  .cube-trash{min-width:44px;min-height:50px;padding:5px}
-  .cube-tools{gap:6px}
+  html{height:100%;overflow:hidden;overscroll-behavior:none;scroll-padding:0}
+  body{height:100vh;height:100dvh;overflow:hidden;overscroll-behavior:none;display:flex;flex-direction:column}
+  .topbar{flex:none;width:100%;margin:0;padding:5px max(16px,env(safe-area-inset-right)) 5px max(16px,env(safe-area-inset-left));min-height:47px}
+  .brand{font-size:12px;letter-spacing:.06em;gap:7px}.brand-mark{width:29px;height:29px}
+  .text-button{min-height:36px;font-size:11px;gap:4px}.text-button svg{width:16px;height:16px}
+  main{flex:1;min-height:0;width:100%;margin:0;display:flex;flex-direction:column;padding:12px max(16px,env(safe-area-inset-right)) max(12px,env(safe-area-inset-bottom)) max(16px,env(safe-area-inset-left))}
+  .intro{flex:none;margin-bottom:5px}.intro .eyebrow,.edition,.intro-copy{display:none}.intro h1{font-size:28px}
+  .workspace{flex:1;min-height:0;display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:minmax(0,1fr) auto;gap:14px;align-items:stretch}
+  .exhibit{min-height:0;display:grid;grid-template-rows:auto minmax(0,1fr) auto auto}
+  .exhibit-top{min-height:80px;gap:8px}
+  .cube-tools{column-gap:4px}.sugar-jar{width:70px;height:80px}.sugar-jar .jar-art{width:68px;height:78px}
+  .stage-scroll{min-height:0;overscroll-behavior:contain}.stage{min-width:650px;height:100%}
+  .stage-caption{font-size:11px;margin:3px 0 7px;min-height:20px}
+  .food-selectors{gap:5px}.food-selector{padding:10px 2px;min-height:44px;text-align:center;border-radius:8px;border:1px solid var(--border)}
+  .food-selector .selector-top{justify-content:center}.food-selector strong{font-size:13px;font-weight:500}
+  .food-selector .selector-score,.food-selector .selector-index{display:none}
+  .food-selector.selected{border-color:#839e82;background:#e1e9d6;border-radius:8px}
+  .control-panel{position:static;align-self:stretch;display:grid;grid-template-columns:minmax(0,1fr) 90px;column-gap:12px;row-gap:10px;border:0;border-radius:0;padding:0;background:transparent;box-shadow:none}
+  .selected-food{min-width:0;align-self:center}.selected-food h2{font-size:20px;margin:0 0 4px}.serving{font-size:11px;line-height:1.4}
+  .guess-counter{grid-column:2;grid-row:1;padding:0}.guess-counter strong{font-size:34px}.guess-counter span{font-size:10px}.guess-counter>div{gap:2px}
+  .main-actions{grid-column:1/-1;grid-template-columns:minmax(0,1fr) minmax(0,1fr) 44px;gap:7px}
+  .main-actions button{min-height:45px;padding:9px 4px;font-size:13px;border-radius:10px;white-space:nowrap}#reveal{grid-column:auto}
+  .answer-card{grid-column:1/-1;border:0;margin:0;padding:0;display:flex;align-items:baseline;gap:5px;flex-wrap:wrap}
+  .answer-card p{margin:0 3px;gap:4px}.answer-card strong{font-size:20px}.answer-card small{font-size:11px;margin:0}.answer-kicker{font-size:11px}
+  dialog{max-height:calc(100dvh - 24px);overflow:auto;overscroll-behavior:contain}
 }
+@media(max-width:820px) and (max-height:720px) and (orientation:portrait){
+  main{padding-top:8px}.intro h1{font-size:25px}.intro{margin-bottom:2px}.workspace{gap:10px}.stage-caption{display:none}.exhibit{grid-template-rows:auto minmax(0,1fr) auto}
+  .exhibit-top{min-height:72px}.sugar-jar{height:72px}.sugar-jar .jar-art{width:62px;height:71px}
+}
+@media(max-width:1024px) and (max-height:600px) and (orientation:landscape){
+  .topbar{min-height:42px;padding-top:3px;padding-bottom:3px}.intro{display:none}
+  main{padding-top:4px;padding-bottom:max(8px,env(safe-area-inset-bottom))}
+  .workspace{grid-template-columns:minmax(0,1fr) 210px;grid-template-rows:minmax(0,1fr);gap:16px}
+  .exhibit{grid-template-rows:auto minmax(0,1fr) auto}.stage-caption{display:none}
+  .exhibit-top{min-height:66px}.sugar-jar{height:66px}.sugar-jar .jar-art{width:57px;height:65px}
+  .control-panel{align-self:end;grid-template-columns:minmax(0,1fr);gap:10px}.selected-food{grid-column:1;grid-row:1}
+  .guess-counter{grid-column:1;grid-row:2}.main-actions{grid-column:1;grid-template-columns:1fr 44px}#reveal{grid-column:1/-1}.answer-card{grid-column:1;line-height:1.35}
+}
+@media(max-width:360px){.food-selector strong{font-size:11.5px}}
+@media(max-width:440px){dialog{padding:29px 21px}dialog h2{font-size:28px}th,td{padding:10px 6px}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
 
 </style>
   
@@ -163,57 +204,149 @@ body.removing-cube .drag-cube span{background:#916944}
   <svg class="svg-defs" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs>
     <symbol id="i-cube" viewBox="0 0 24 24"><path d="m12 2 9 5v10l-9 5-9-5V7Z M3 7l9 5 9-5M12 12v10"/></symbol>
     <symbol id="i-reset" viewBox="0 0 24 24"><path d="M4 10a8 8 0 1 1 1 7M4 4v6h6"/></symbol>
-    <symbol id="i-trash" viewBox="0 0 24 24"><path d="M3 6h18M9 6V3h6v3M5 6l1 15h12l1-15M10 10v7m4-7v7"/></symbol>
+    <symbol id="i-view-front" viewBox="0 0 24 24"><path d="m3 7 9 5v10l-9-5Z" fill="currentColor" fill-opacity=".22"/><path d="m12 2 9 5v10l-9 5-9-5V7Z M3 7l9 5 9-5M12 12v10"/></symbol>
+    <symbol id="i-view-top" viewBox="0 0 24 24"><path d="m12 2 9 5-9 5-9-5Z" fill="currentColor" fill-opacity=".22"/><path d="m12 2 9 5v10l-9 5-9-5V7Z M3 7l9 5 9-5M12 12v10"/></symbol>
     <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></symbol>
-    <symbol id="i-expand" viewBox="0 0 24 24"><path d="M8 3H3v5m13-5h5v5M3 16v5h5m13-5v5h-5"/></symbol>
     <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v6m0-10v1"/></symbol>
     <symbol id="i-close" viewBox="0 0 24 24"><path d="m6 6 12 12M6 18 18 6"/></symbol>
     <symbol id="i-hand" viewBox="0 0 24 24"><path d="M8 12V5a2 2 0 0 1 4 0v7-3a2 2 0 0 1 4 0v3-1a2 2 0 0 1 4 0v5c0 4-2 6-6 6h-1c-2 0-4-1-5-3l-4-6a2 2 0 0 1 3-2l3 3"/></symbol>
   </defs></svg>
   <header class="topbar">
-    <a class="brand" href="#page-title" aria-label="Sugar Cube Studio 首頁"><span class="brand-mark"><svg><use href="#i-cube"/></svg></span><span>SUGAR CUBE <b>STUDIO</b></span></a>
+    <a class="brand" href="#page-title" aria-label="方糖工作室首頁"><span class="brand-mark"><svg><use href="#i-cube"/></svg></span><span>方糖工作室</span></a>
     <nav aria-label="展示工具">
       <button class="text-button" id="sources-button"><svg><use href="#i-info"/></svg><span>資料與來源</span></button>
-      <button class="text-button" id="presentation-button" aria-pressed="false"><svg><use href="#i-expand"/></svg><span>簡報模式</span></button>
     </nav>
   </header>
   <main>
     <section class="intro" aria-labelledby="page-title">
-      <div><p class="eyebrow">A LITTLE FOOD FOR THOUGHT</p><h1 id="page-title">一份食物，<em>幾多粒糖？</em></h1><p class="intro-copy">先估一估，再用方糖睇見食物嘅血糖影響等值。</p></div>
+      <div><h1 id="page-title">一份食物，<em>多少粒糖？</em></h1><p class="intro-copy">先估計數量，再以方糖呈現食物的血糖影響等值。</p></div>
       <div class="edition"><span class="edition-line"></span><span>DR DAVID UNWIN<br><b>五款食物 · 互動示範</b></span></div>
     </section>
     <div class="workspace">
       <section class="exhibit" aria-label="五款食物與方糖的 3D 展示">
-        <div class="exhibit-top"><span class="view-controls"><button id="view-front" class="view-button active" aria-pressed="true">前方</button><button id="view-top" class="view-button" aria-pressed="false">俯視</button></span><div class="cube-tools"><button id="cube-source" class="cube-source" aria-label="加入一粒方糖，或拖放到指定食物前面"><svg class="source-cube" viewBox="0 0 64 64" aria-hidden="true"><path d="m32 7 23 13v26L32 59 9 46V20Z" fill="#fffcf5" stroke="#c7bfb0"/><path d="m9 20 23 13 23-13M32 33v26" fill="none" stroke="#c7bfb0"/><path d="m32 33 23-13v26L32 59Z" fill="#ddd5c7" opacity=".45"/></svg><span><b>拿一粒糖</b><small>拖放或按一下</small></span></button><button id="cube-trash" class="cube-trash" aria-label="垃圾桶：拖入方糖或按一下減一粒" title="拖入方糖，或按一下減一粒"><svg aria-hidden="true"><use href="#i-trash"/></svg><small>−1 粒</small></button></div></div>
+        <div class="exhibit-top">
+          <div class="view-controls" role="group" aria-label="切換視角">
+            <button id="view-front" class="view-button active" aria-pressed="true" aria-label="前方視角" title="前方視角"><svg aria-hidden="true"><use href="#i-view-front"/></svg></button>
+            <button id="view-top" class="view-button" aria-pressed="false" aria-label="俯視視角" title="俯視視角"><svg aria-hidden="true"><use href="#i-view-top"/></svg></button>
+          </div>
+          <div class="cube-tools" role="group" aria-label="調整所選食物的方糖數量">
+            <button id="minus" class="count-button" aria-label="減少一粒方糖" title="減少一粒方糖">−</button>
+            <div id="sugar-jar" class="sugar-jar" role="img" aria-label="糖罐：拖出方糖加入食物，或將已放置的方糖拖回糖罐" title="拖出方糖，或將方糖放回糖罐"><svg class="jar-art" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 138" width="120" height="138" aria-hidden="true" focusable="false" style="fill:none;stroke:none">
+  <defs>
+    <linearGradient id="sugarJarGlass" x1="15" y1="0" x2="105" y2="0" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#82998a" stop-opacity=".15"/>
+      <stop offset=".1" stop-color="#ffffff" stop-opacity=".44"/>
+      <stop offset=".24" stop-color="#ffffff" stop-opacity=".05"/>
+      <stop offset=".73" stop-color="#ffffff" stop-opacity=".015"/>
+      <stop offset=".89" stop-color="#ffffff" stop-opacity=".3"/>
+      <stop offset="1" stop-color="#738b7d" stop-opacity=".18"/>
+    </linearGradient>
+    <linearGradient id="sugarJarBase" x1="60" y1="108" x2="60" y2="129" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#e4e9df" stop-opacity=".08"/>
+      <stop offset=".5" stop-color="#aebcae" stop-opacity=".3"/>
+      <stop offset=".75" stop-color="#ffffff" stop-opacity=".65"/>
+      <stop offset="1" stop-color="#9aa99a" stop-opacity=".32"/>
+    </linearGradient>
+    <linearGradient id="sugarJarLeftFace" x1="0" y1="7" x2="13" y2="26" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#fbfaf3"/>
+      <stop offset="1" stop-color="#e4e2d8"/>
+    </linearGradient>
+    <linearGradient id="sugarJarRightFace" x1="12" y1="10" x2="24" y2="25" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#e7e8df"/>
+      <stop offset="1" stop-color="#cfd6cb"/>
+    </linearGradient>
+    <radialGradient id="sugarJarShadow">
+      <stop stop-color="#657761" stop-opacity=".18"/>
+      <stop offset=".62" stop-color="#657761" stop-opacity=".07"/>
+      <stop offset="1" stop-color="#657761" stop-opacity="0"/>
+    </radialGradient>
+    <pattern id="sugarJarGrain" width="5" height="5" patternUnits="userSpaceOnUse">
+      <circle cx=".9" cy="1.2" r=".35" fill="#8e9a87" opacity=".2"/>
+      <circle cx="3.6" cy="3.8" r=".28" fill="#ffffff" opacity=".85"/>
+      <circle cx="4.1" cy=".5" r=".2" fill="#8e9a87" opacity=".2"/>
+    </pattern>
+    <clipPath id="sugarJarInterior">
+      <path d="M20.5 30C20.5 16.5 99.5 16.5 99.5 30L98 109C98 125 22 125 22 109Z"/>
+    </clipPath>
+    <g id="sugarJarCube" stroke-linejoin="round">
+      <path d="M.6 6.6 12 .6 23.4 6.6 12 13Z" fill="#fffef7" stroke="#d7d9ce" stroke-width=".6"/>
+      <path d="M.6 6.6 12 13 12 26.3.8 19.8Z" fill="url(#sugarJarLeftFace)" stroke="#d0d3c7" stroke-width=".6"/>
+      <path d="M12 13 23.4 6.6 23.2 19.8 12 26.3Z" fill="url(#sugarJarRightFace)" stroke="#c8d0c2" stroke-width=".6"/>
+      <path d="M.6 6.6 12 .6 23.4 6.6 23.2 19.8 12 26.3.8 19.8Z" fill="url(#sugarJarGrain)"/>
+      <path d="M1.8 7.2 12 12.5 22.1 7.2M12 13.9V24.4" stroke="#ffffff" stroke-opacity=".6" stroke-width=".7"/>
+    </g>
+  </defs>
+
+  <ellipse cx="60" cy="129" rx="50" ry="8" fill="url(#sugarJarShadow)"/>
+
+  <!-- Back wall and the visible inner opening, behind the sugar. -->
+  <path d="M16 29C16 11 104 11 104 29L102 111C102 131 18 131 18 111Z" fill="#e7eee4" fill-opacity=".2" stroke="#93a490" stroke-opacity=".58" stroke-width="1.15"/>
+  <ellipse cx="60" cy="29" rx="43.5" ry="13.5" fill="#f9fbf3" fill-opacity=".4" stroke="#a4b09b" stroke-opacity=".67" stroke-width="1.1"/>
+  <ellipse cx="60" cy="29" rx="38.9" ry="10" fill="#a9b7a1" fill-opacity=".12" stroke="#97a58c" stroke-opacity=".48" stroke-width=".9"/>
+
+  <!-- Eleven individually turned, three-faced cubes stay inside the vessel. -->
+  <g clip-path="url(#sugarJarInterior)">
+    <use href="#sugarJarCube" transform="translate(30 43) rotate(-8 12 13)"/>
+    <use href="#sugarJarCube" transform="translate(54 44) rotate(6 12 13)"/>
+    <use href="#sugarJarCube" transform="translate(77 46) rotate(13 12 13)"/>
+    <use href="#sugarJarCube" transform="translate(42 28) rotate(-10 12 13)"/>
+    <use href="#sugarJarCube" transform="translate(64 33) rotate(10 12 13)"/>
+    <use href="#sugarJarCube" transform="translate(19 65) rotate(-9 12 13) scale(1.07)"/>
+    <use href="#sugarJarCube" transform="translate(44 63) rotate(9 12 13) scale(1.07)"/>
+    <use href="#sugarJarCube" transform="translate(72 65) rotate(-6 12 13) scale(1.07)"/>
+    <use href="#sugarJarCube" transform="translate(25 87) rotate(8 12 13) scale(1.08)"/>
+    <use href="#sugarJarCube" transform="translate(49 89) rotate(-6 12 13) scale(1.08)"/>
+    <use href="#sugarJarCube" transform="translate(75 86) rotate(9 12 13) scale(1.05)"/>
+  </g>
+
+  <!-- Transparent front wall, thick curved foot and narrow reflected light. -->
+  <path d="M16 29C16 47 104 47 104 29L102 111C102 131 18 131 18 111Z" fill="url(#sugarJarGlass)"/>
+  <path d="M18 107C18 124 102 124 102 107L101.8 113C99 131 21 131 18.2 113Z" fill="url(#sugarJarBase)"/>
+  <path d="M16.4 31 18.2 109C18.4 117.4 32.8 121.4 43 122.8M103.6 31 101.8 109C101.6 117.4 87.2 121.4 77 122.8" stroke="#899e89" stroke-opacity=".6" stroke-width="1.15" stroke-linecap="round"/>
+  <path d="M22.6 43 24 101C24.1 107 26.3 110.2 29.7 112.2" stroke="#ffffff" stroke-opacity=".75" stroke-width="3.1" stroke-linecap="round"/>
+  <path d="M27.2 47 28 72" stroke="#ffffff" stroke-opacity=".45" stroke-width="1.15" stroke-linecap="round"/>
+  <path d="M96.5 46 95.4 102" stroke="#ffffff" stroke-opacity=".64" stroke-width="1.8" stroke-linecap="round"/>
+  <path d="M27 116.4C42 123.1 78 123.1 93 116.4" stroke="#ffffff" stroke-opacity=".8" stroke-width="1.5" stroke-linecap="round"/>
+
+  <!-- Two thin concentric arcs read as an open, polished glass rim. -->
+  <path d="M16.5 29C16.5 47 103.5 47 103.5 29" stroke="#91a187" stroke-opacity=".76" stroke-width="1.7"/>
+  <path d="M21.1 29C21.1 42.4 98.9 42.4 98.9 29" stroke="#ffffff" stroke-opacity=".95" stroke-width="2"/>
+  <path d="M19 25.5C26.1 13.1 80.8 11.9 98.4 22.7" stroke="#ffffff" stroke-opacity=".92" stroke-width="1.9" stroke-linecap="round"/>
+  <path d="M28 36.4C43.4 42.3 77.2 42.3 92 36.4" stroke="#fafff5" stroke-opacity=".92" stroke-width="1.1" stroke-linecap="round"/>
+</svg>
+</div>
+            <button id="plus" class="count-button" aria-label="增加一粒方糖" title="增加一粒方糖">＋</button>
+            <span class="jar-caption">拖放增減方糖</span>
+          </div>
+        </div>
         <div class="stage-scroll" id="stage-scroll">
           <div class="stage" id="stage">
-            <canvas id="scene" aria-label="五款立體食物。拖方糖到食物前面加入，拖已放低嘅方糖到垃圾桶減一粒；亦可使用加減按鈕。"></canvas>
+            <canvas id="scene" aria-label="五款立體食物。從糖罐拖出方糖加入食物，將已放置的方糖拖回糖罐以減少一粒；亦可使用加減按鈕。"></canvas>
             <div id="world-labels" class="world-labels"></div>
-            <div id="cube-handles" class="cube-handles" aria-label="拖動已放置嘅方糖"></div>
-            <div class="loading" id="loading"><span class="loading-cube"><svg><use href="#i-cube"/></svg></span><p>正在準備展示枱…</p></div>
+            <div id="cube-handles" class="cube-handles" aria-label="拖動已放置的方糖"></div>
+            <div class="loading" id="loading"><span class="loading-cube"><svg><use href="#i-cube"/></svg></span><p>正在準備展示…</p></div>
           </div>
         </div>
         <div class="stage-caption"><span><svg><use href="#i-hand"/></svg><span id="stage-hint">點選食物，再加入或拖放方糖</span></span></div>
         <div class="food-selectors" id="food-selectors" aria-label="選擇食物"></div>
       </section>
       <aside class="control-panel" id="control-panel" aria-label="方糖控制面板">
-        <div class="selected-food"><h2 id="selected-name">粟米片</h2><p class="serving" id="selected-serving">一碗 · 未加奶</p></div>
-        <div class="guess-counter"><button id="minus" aria-label="減一粒方糖">−</button><div role="status" aria-live="polite" aria-atomic="true"><strong id="guess-count">0</strong><span>你估幾多粒</span></div><button id="plus" aria-label="加一粒方糖">＋</button></div>
+        <div class="selected-food"><h2 id="selected-name">粟米片</h2><p class="serving" id="selected-serving">無糖霜及奶</p></div>
+        <div class="guess-counter"><div role="status" aria-live="polite" aria-atomic="true"><strong id="guess-count">0</strong><span>估計方糖數量</span></div></div>
         <div id="answer-card" class="answer-card" role="status" hidden><span class="answer-kicker">示範答案</span><p><strong id="answer-value">8</strong><span>粒等值</span></p><small id="answer-guess"></small></div>
-        <div class="main-actions"><button id="reveal" class="primary-button"><span>揭曉呢款</span></button><button id="reveal-all" class="secondary-button"><span>揭曉全部</span></button><button id="reset-all" class="secondary-button">重來</button></div>
+        <div class="main-actions"><button id="reveal" class="primary-button"><span>揭曉此項答案</span></button><button id="reveal-all" class="secondary-button"><span>揭曉全部答案</span></button><button id="reset-all" class="secondary-button reset-button" aria-label="重新開始" title="重新開始"><svg aria-hidden="true"><use href="#i-reset"/></svg></button></div>
       </aside>
     </div>
   </main>
   <div id="drag-cube" class="drag-cube" hidden><svg viewBox="0 0 24 24"><use href="#i-cube"/></svg><span>＋1</span></div>
   <dialog id="sources-dialog" aria-labelledby="sources-title">
     <button class="dialog-close icon-button" id="close-sources" aria-label="關閉資料與來源"><svg><use href="#i-close"/></svg></button>
-    <p class="eyebrow">BEHIND THE CUBES</p><h2 id="sources-title">方糖代表乜？</h2>
-    <p>本展示參考 Dr David Unwin 訪談中五款食物作比較；朱古力條按本次展示設定為 7 粒整糖。<strong>每粒虛擬方糖，代表一茶匙（4 克）砂糖嘅估算血糖影響等值。</strong>數值係由升糖負荷換算，並非食物實際含有幾多砂糖，亦唔代表食物嘅整體營養價值。</p>
-    <div class="table-scroll"><table><thead><tr><th>食物</th><th>影片份量描述</th><th>展示等值</th></tr></thead><tbody id="source-rows"></tbody></table></div>
-    <p class="source-note">除白飯明確提及熟重 150 克外，其餘食物重量未註明。朱古力條品牌亦未確認。平台保留呢啲限制，唔會將示範值當成所有同類食物嘅固定答案。</p>
-    <h3>展示數字與官方圖表</h3><p>PHC 圖表另列：粟米片 30 克＝8.4；烚白薯仔 150 克＝9.1；Basmati 熟飯 150 克＝10.1；香蕉 120 克＝5.7。份量、品種及煮法有指定條件，唔會混入本次影片示範答案。</p>
+    <p class="eyebrow">資料與來源</p><h2 id="sources-title">方糖代表甚麼？</h2>
+    <p>本展示參考 Dr David Unwin 訪談中五款食物作比較；朱古力條按本次展示設定為 7 粒方糖。<strong>每粒虛擬方糖，代表一茶匙（4 克）砂糖的估算血糖影響等值。</strong>數值由升糖負荷換算，並非食物實際含有多少砂糖，亦不代表食物的整體營養價值。</p>
+    <div class="table-scroll"><table><thead><tr><th>食物</th><th>食物說明</th><th>展示等值</th></tr></thead><tbody id="source-rows"></tbody></table></div>
+    <h3>展示數字與官方圖表</h3><p>PHC 圖表另列：粟米片 30 克＝8.4；水煮白薯仔 150 克＝9.1；Basmati 熟飯 150 克＝10.1；香蕉 120 克＝5.7。份量、品種及烹調方式有指定條件，不會混入本次影片示範答案。</p>
     <ul class="source-links"><li><a href="https://www.youtube.com/watch?v=zc8Nh4TMB1s&t=2340s" target="_blank" rel="noopener noreferrer">The Diary of a CEO · Dr David Unwin 原訪談（約 39 分鐘起）</a></li><li><a href="https://singjupost.com/diary-of-a-ceo-w-fatty-liver-expert-dr-david-unwin-transcript/" target="_blank" rel="noopener noreferrer">影片示範數字來源：第三方訪談逐字稿</a></li><li><a href="https://journalofmetabolichealth.org/index.php/jmh/article/view/8/11" target="_blank" rel="noopener noreferrer">Unwin、Haslam、Livesey（2016）· 升糖負荷換算方法</a></li><li><a href="https://phcuk.org/images/sugar/common-foods.jpg" target="_blank" rel="noopener noreferrer">PHC 官方常見食物圖表</a></li><li><a href="https://phcuk.org/images/sugar/breakfast-cereals.jpg" target="_blank" rel="noopener noreferrer">PHC 官方早餐穀物圖表</a></li></ul>
-    <p class="source-note">鍵盤操作：數字 1–5 選食物；＋／− 加減一粒；R 揭曉所選食物；Shift＋R 揭曉全部答案。系統減少動態效果設定會自動套用。</p>
+    <p class="source-note">鍵盤操作：數字 1–5 選擇食物；＋／− 加減一粒；R 揭曉所選食物；Shift＋R 揭曉全部答案。系統減少動態效果設定會自動套用。</p>
   </dialog>
   <script>
 (() => {
@@ -55463,43 +55596,82 @@ function roundedRect(width, height, radius) {
 
 function chocolate() {
   const group = new THREE.Group();
-  const map = canvasMap('chocolate', 256, 256, (ctx, w, h) => {
+  const map = canvasMap('chocolate-coated-snack', 256, 256, (ctx, w, h) => {
     const rand = random(996), data = ctx.createImageData(w, h);
     for (let i = 0; i < w * h; i++) {
-      const v = rand() * 8;
-      data.data[i * 4] = 122 + v; data.data[i * 4 + 1] = 78 + v;
-      data.data[i * 4 + 2] = 58 + v; data.data[i * 4 + 3] = 255;
+      const v = rand() * 5;
+      data.data[i * 4] = 116 + v; data.data[i * 4 + 1] = 70 + v;
+      data.data[i * 4 + 2] = 50 + v; data.data[i * 4 + 3] = 255;
     }
     ctx.putImageData(data, 0, 0);
   });
   const material = new THREE.MeshPhysicalMaterial({
-    color: '#b99988', map, roughness: .34, bumpMap: map, bumpScale: .0008,
-    clearcoat: .19, clearcoatRoughness: .42,
+    color: '#ffffff', map, roughness: .39, bumpMap: map, bumpScale: .0005,
+    clearcoat: .12, clearcoatRoughness: .46,
   });
-  const baseGeo = new THREE.ExtrudeGeometry(roundedRect(1.66, .90, .045), {
-    depth: .065, bevelEnabled: true, bevelSegments: 3, steps: 1,
-    bevelSize: .013, bevelThickness: .012, curveSegments: 8,
-  });
-  baseGeo.rotateX(-Math.PI / 2);
-  const base = finish(new THREE.Mesh(baseGeo, material), group); base.position.y = .017;
-  const squareGeo = new THREE.ExtrudeGeometry(roundedRect(.339, .349, .026), {
-    depth: .10, bevelEnabled: true, bevelSegments: 3, steps: 1,
-    bevelSize: .028, bevelThickness: .026, curveSegments: 8,
-  });
-  squareGeo.rotateX(-Math.PI / 2);
-  const insetMaterial = new THREE.MeshStandardMaterial({ color: '#573b2c', roughness: .44 });
-  const outer = roundedRect(.245, .251, .017);
-  const hole = roundedRect(.230, .236, .014);
-  outer.holes.push(new THREE.Path(hole.getPoints(24)));
-  const insetGeo = new THREE.ShapeGeometry(outer, 6); insetGeo.rotateX(-Math.PI / 2);
-  for (let row = 0; row < 2; row++) for (let col = 0; col < 4; col++) {
-    const piece = finish(new THREE.Mesh(squareGeo, material), group);
-    piece.position.set((col - 1.5) * .411, .10, (row - .5) * .439);
-    const inset = finish(new THREE.Mesh(insetGeo, insetMaterial), group);
-    inset.position.set(piece.position.x, .22625, piece.position.z);
+
+  // A single coated snack bar: a compact, thick body with softly rolled
+  // corners and a mildly uneven chocolate shell, without tablet divisions.
+  const length = 1.22, width = .42, height = .28, rounding = .055;
+  const half = new THREE.Vector3(length / 2, height / 2, width / 2);
+  const core = half.clone().addScalar(-rounding);
+  const geometry = new THREE.BoxGeometry(length, height, width, 56, 14, 20);
+  const positions = geometry.attributes.position, normals = geometry.attributes.normal;
+  const point = new THREE.Vector3(), nearest = new THREE.Vector3(), normal = new THREE.Vector3();
+  const ripple = (x, z) => .0045 * (Math.sin(x * 23 + z * 13) + .38 * Math.sin(x * 41 - z * 19));
+  for (let i = 0; i < positions.count; i++) {
+    point.fromBufferAttribute(positions, i);
+    nearest.set(
+      THREE.MathUtils.clamp(point.x, -core.x, core.x),
+      THREE.MathUtils.clamp(point.y, -core.y, core.y),
+      THREE.MathUtils.clamp(point.z, -core.z, core.z),
+    );
+    normal.copy(point).sub(nearest).normalize();
+    point.copy(nearest).addScaledVector(normal, rounding);
+    const top = Math.max(0, normal.y);
+    const coating = .0018 * Math.sin(point.x * 31 + point.z * 17) * Math.sin(point.y * 22 + .8);
+    point.addScaledVector(normal, coating);
+    point.y += top * ripple(point.x, point.z);
+    positions.setXYZ(i, point.x, point.y, point.z);
+    // Preserve seamless normals around the rounded box, including the small
+    // ripples across its broad top surface.
+    normal.x -= top * .0045 * (23 * Math.cos(point.x * 23 + point.z * 13) + .38 * 41 * Math.cos(point.x * 41 - point.z * 19));
+    normal.z -= top * .0045 * (13 * Math.cos(point.x * 23 + point.z * 13) - .38 * 19 * Math.cos(point.x * 41 - point.z * 19));
+    normal.normalize(); normals.setXYZ(i, normal.x, normal.y, normal.z);
   }
-  group.rotation.y = -.18;
-  group.scale.setScalar(.97);
+  const body = finish(new THREE.Mesh(geometry, material), group);
+  body.position.y = height / 2;
+
+  // Shallow, irregular folds of the same coating catch a little light. They
+  // read as a drizzled enrobed surface rather than separate chocolate pieces.
+  const rand = random(419);
+  for (let strip = 0; strip < 5; strip++) {
+    const center = -.445 + strip * .216 + (rand() - .5) * .019;
+    const points = [];
+    for (let j = 0; j < 7; j++) {
+      const z = -.145 + j / 6 * .29;
+      const x = center + .04 * Math.sin(j * .86 + strip * 1.8) + z * .20;
+      points.push(new THREE.Vector3(x, height + ripple(x, z) + .004, z));
+    }
+    const curve = new THREE.CatmullRomCurve3(points);
+    const radius = .013 + rand() * .005;
+    const drizzle = new THREE.TubeGeometry(curve, 40, radius, 10, false);
+    const drizzlePositions = drizzle.attributes.position;
+    for (let ring = 0; ring <= 40; ring++) {
+      const centerPoint = curve.getPointAt(ring / 40);
+      for (let side = 0; side <= 10; side++) {
+        const index = ring * 11 + side;
+        drizzlePositions.setY(index, centerPoint.y + (drizzlePositions.getY(index) - centerPoint.y) * .58);
+      }
+    }
+    drizzle.computeVertexNormals();
+    finish(new THREE.Mesh(drizzle, material), group);
+    for (const end of [points[0], points[points.length - 1]]) {
+      const cap = finish(new THREE.Mesh(new THREE.SphereGeometry(radius, 10, 6), material), group);
+      cap.scale.y = .58; cap.position.copy(end);
+    }
+  }
+  group.rotation.y = -.12;
   return group;
 }
 
@@ -55525,38 +55697,38 @@ return { createFood };
 })();
 
 const { FOODS, createState, reduceState, getFood } = (() => {
-const equivalenceNote = '影片示範嘅升糖負荷（GL）砂糖等值，唔係食物實際含糖量。';
+const equivalenceNote = '影片示範的升糖負荷（GL）砂糖等值，並非食物實際含糖量。';
 
 const FOODS = Object.freeze([
   {
     id: 'cornflakes',
     name: '粟米片',
     en: 'Cornflakes',
-    serving: '一碗・未加奶',
+    serving: '無糖霜及奶',
     answer: 8,
-    note: `${equivalenceNote}影片未註明碗內重量。`,
+    note: equivalenceNote,
   },
   {
     id: 'potato',
     name: '薯仔',
     en: 'Potato',
-    serving: '一個較大薯仔',
+    serving: '一個大薯仔',
     answer: 9,
-    note: `${equivalenceNote}份量及煮法會影響比較。`,
+    note: `${equivalenceNote}份量及烹調方式會影響比較。`,
   },
   {
     id: 'rice',
     name: '白飯',
     en: 'Rice',
-    serving: '熟飯150克',
+    serving: '熟飯 150 克',
     answer: 10,
-    note: `${equivalenceNote}唔應將示範數值套用到所有米種同煮法。`,
+    note: `${equivalenceNote}不應將示範數值套用到所有米種及烹調方式。`,
   },
   {
     id: 'banana',
     name: '香蕉',
     en: 'Banana',
-    serving: '一條較大熟香蕉',
+    serving: '一條較大的熟香蕉',
     answer: 6,
     note: `${equivalenceNote}大小及成熟程度會影響比較。`,
   },
@@ -55564,9 +55736,9 @@ const FOODS = Object.freeze([
     id: 'chocolate',
     name: '朱古力條',
     en: 'Chocolate bar',
-    serving: '一條・品牌及重量未註明',
+    serving: '約 50 克',
     answer: 7,
-    note: `${equivalenceNote}本次展示設定為 7 粒整糖；品牌及重量未註明，唔代表所有朱古力條。`,
+    note: `${equivalenceNote}本次展示設定為 7 粒方糖。`,
   },
 ].map(Object.freeze));
 
@@ -55668,15 +55840,15 @@ function updateUI() {
   $('answer-card').hidden = !revealed;
   $('answer-value').textContent = fmt(food.answer);
   const difference = count - food.answer;
-  $('answer-guess').textContent = difference === 0 ? `你估 ${fmt(count)} 粒，與示範相同。` : `你估 ${fmt(count)} 粒 · ${difference > 0 ? '多' : '少'} ${fmt(Math.abs(difference))} 粒`;
+  $('answer-guess').textContent = difference === 0 ? `估計 ${fmt(count)} 粒，與示範相同。` : `估計 ${fmt(count)} 粒 · ${difference > 0 ? '多' : '少'} ${fmt(Math.abs(difference))} 粒`;
   $('reveal').disabled = revealed;
-  $('reveal').querySelector('span').textContent = revealed ? '已揭曉' : '揭曉呢款';
-  $('reveal').setAttribute('aria-label', revealed ? `${food.name}答案已揭曉` : `揭曉${food.name}嘅答案`);
-  $('cube-trash').setAttribute('aria-label', `垃圾桶：按一下減一粒${food.name}方糖，或拖入已放低嘅方糖`);
+  $('reveal').querySelector('span').textContent = revealed ? '已揭曉' : '揭曉此項答案';
+  $('reveal').setAttribute('aria-label', revealed ? `${food.name}答案已揭曉` : `揭曉${food.name}的答案`);
+  $('minus').setAttribute('aria-label', `減少一粒${food.name}的方糖`);
+  $('plus').setAttribute('aria-label', `增加一粒${food.name}的方糖`);
   $('reveal-all').disabled = state.revealed.length === FOODS.length;
-  $('reveal-all').querySelector('span').textContent = state.revealed.length === FOODS.length ? '全部已揭曉' : '揭曉全部';
-  $('cube-source').setAttribute('aria-label', `加入一粒糖到${food.name}，或拖到其他食物欄`);
-  $('stage-hint').textContent = state.revealed.length ? '金色數字係答案 · 保留你嘅估計' : ($('stage-scroll').scrollWidth > $('stage-scroll').clientWidth + 5 ? '左右滑動睇食物 · 拖糖到亮起嗰欄' : '選食物 · 拖糖到亮起嗰欄');
+  $('reveal-all').querySelector('span').textContent = state.revealed.length === FOODS.length ? '全部已揭曉' : '揭曉全部答案';
+  $('stage-hint').textContent = $('stage-scroll').scrollWidth > $('stage-scroll').clientWidth + 5 ? '左右滑動查看食物 · 從糖罐拖出或放回方糖' : '從糖罐拖出方糖加入食物，或將方糖放回糖罐';
   document.querySelectorAll('.food-selector').forEach(button => {
     const id = button.dataset.food;
     const active = id === food.id;
@@ -55684,7 +55856,7 @@ function updateUI() {
     button.classList.toggle('selected', active);
     button.classList.toggle('revealed', shown);
     button.setAttribute('aria-pressed', String(active));
-    button.querySelector('.selector-score').textContent = shown ? `示範 ${fmt(getFood(id).answer)} · 你估 ${fmt(state.counts[id])}` : `你估 ${fmt(state.counts[id])} 粒`;
+    button.querySelector('.selector-score').textContent = shown ? `示範 ${fmt(getFood(id).answer)} · 估計 ${fmt(state.counts[id])}` : `估計 ${fmt(state.counts[id])} 粒`;
   });
 
 }
@@ -55694,7 +55866,7 @@ for (const [index, food] of FOODS.entries()) {
   button.className = 'food-selector';
   button.dataset.food = food.id;
   button.setAttribute('aria-pressed', String(index === 0));
-  button.innerHTML = `<span class="selector-top"><strong>${food.name}</strong><span class="selector-index">0${index + 1}</span></span><span class="en-name">${food.en}</span><span class="selector-score">你估 0 粒</span>`;
+  button.innerHTML = `<span class="selector-top"><strong>${food.name}</strong><span class="selector-index">0${index + 1}</span></span><span class="selector-score">估計 0 粒</span>`;
   button.addEventListener('click', () => { dispatch({ type: 'SELECT', id: food.id }); });
   $('food-selectors').append(button);
   const row = document.createElement('tr');
@@ -55706,7 +55878,6 @@ for (const [id, type] of [['plus','ADD'],['minus','REMOVE']]) {
   $(id).addEventListener('click', () => { dispatch({type}); });
 }
 $('reveal').addEventListener('click', () => { dispatch({type:'REVEAL'}); });
-$('cube-trash').addEventListener('click', () => { dispatch({type:'REMOVE'}); });
 $('reveal-all').addEventListener('click', () => { dispatch({type:'REVEAL_ALL'}); });
 $('reset-all').addEventListener('click', () => { dispatch({type:'RESET'}); });
 mobileLayout.addEventListener('change', updateUI);
@@ -55717,11 +55888,6 @@ $('sources-dialog').addEventListener('click', event => {
     const rect = event.target.getBoundingClientRect();
     if(event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom) event.target.close();
   }
-});
-$('presentation-button').addEventListener('click', () => {
-  const enabled = document.body.classList.toggle('presentation');
-  $('presentation-button').setAttribute('aria-pressed', String(enabled));
-  $('presentation-button').querySelector('span').textContent = enabled ? '退出簡報' : '簡報模式';
 });
 document.addEventListener('keydown', event => {
   if(document.querySelector('dialog[open]') || event.ctrlKey || event.metaKey || event.altKey || /INPUT|TEXTAREA|SELECT/.test(event.target.tagName)) return;
@@ -55780,7 +55946,7 @@ class FoodStage {
     this.resize();
     this.sync();
     this.renderLoop();
-    this.canvas.addEventListener('webglcontextlost', event => {event.preventDefault();$('loading').hidden=false;$('loading').classList.add('error');$('loading').innerHTML='<p>3D 顯示暫停，請重新整理。<br>你仍可使用按鈕估算及揭曉。</p>';});
+    this.canvas.addEventListener('webglcontextlost', event => {event.preventDefault();$('loading').hidden=false;$('loading').classList.add('error');$('loading').innerHTML='<p>3D 顯示暫停，請重新整理。<br>仍可使用按鈕估算及揭曉。</p>';});
   }
   setupLights() {
     this.scene.add(new THREE.HemisphereLight('#fff8e9','#c5b699',.85));
@@ -55844,7 +56010,7 @@ class FoodStage {
     const cubes=new THREE.Group();this.scene.add(cubes);
     const label=document.createElement('div');label.className='scene-label';label.innerHTML='<span class="lane-number"></span><span class="lane-caption"></span><span class="guess-tag"></span>';$('world-labels').append(label);
     const pickup=document.createElement('button');pickup.type='button';pickup.className='cube-pickup';pickup.dataset.food=food.id;
-    pickup.setAttribute('aria-label',`揀選${food.name}嘅方糖；拖到垃圾桶減一粒`);pickup.hidden=true;pickup.draggable=false;
+    pickup.setAttribute('aria-label',`選取${food.name}的方糖；拖回糖罐以減少一粒`);pickup.hidden=true;pickup.draggable=false;
     pickup.style.touchAction='none';$('cube-handles').append(pickup);this.bindCubePickup(pickup,food.id);
     this.items.set(food.id,{x,model,selectionWash,shadow,ring,lane,cubes,label,pickup,renderCount:null,renderRevealed:null});
   }
@@ -55861,7 +56027,8 @@ class FoodStage {
     this.width=width;this.height=height;
     this.renderer.setSize(width,height,false);
     const aspect=width/height;
-    const worldWidth=Math.max(16.7,8.5*aspect);
+    // Leave space for the answer and original guess on short phone screens.
+    const worldWidth=Math.max(16.7,8.5*width/Math.max(1,height-48));
     this.camera.left=-worldWidth/2;this.camera.right=worldWidth/2;
     this.camera.top=worldWidth/aspect/2;this.camera.bottom=-worldWidth/aspect/2;
     this.camera.updateProjectionMatrix();this.invalidate();updateUI();
@@ -55895,15 +56062,15 @@ class FoodStage {
       item.pickup.style.width=`${width}px`;item.pickup.style.height=`${height}px`;item.pickup.hidden=false;
     }
   }
-  overCubeTrash(clientX,clientY) {
-    const rect=$('cube-trash').getBoundingClientRect();
+  overSugarJar(clientX,clientY) {
+    const rect=$('sugar-jar').getBoundingClientRect();
     return rect.width>0&&rect.height>0&&clientX>=rect.left&&clientX<=rect.right&&clientY>=rect.top&&clientY<=rect.bottom;
   }
   finishCubeRemoval() {
     const active=this.removalDrag;if(!active)return;
     this.removalDrag=null;
     const ghost=$('drag-cube');ghost.hidden=true;ghost.querySelector('span').textContent='＋1';
-    document.body.classList.remove('removing-cube');$('cube-trash').classList.remove('is-ready','is-over');
+    document.body.classList.remove('removing-cube');$('sugar-jar').classList.remove('is-ready','is-over');
     this.setDropTarget(null);
     if(active.handle.hasPointerCapture(active.pointerId))active.handle.releasePointerCapture(active.pointerId);
   }
@@ -55912,7 +56079,7 @@ class FoodStage {
       if(event.button!==0||event.isPrimary===false||this.removalDrag||drag||!this.canRemoveCube(id))return;
       event.stopPropagation();
       this.removalDrag={id,handle,pointerId:event.pointerId,x:event.clientX,y:event.clientY,moved:false};
-      handle.setPointerCapture(event.pointerId);$('cube-trash').classList.add('is-ready');
+      handle.setPointerCapture(event.pointerId);$('sugar-jar').classList.add('is-ready');
     });
     handle.addEventListener('pointermove',event=>{
       const active=this.removalDrag;if(!active||event.pointerId!==active.pointerId)return;
@@ -55924,15 +56091,15 @@ class FoodStage {
       const ghost=$('drag-cube');ghost.querySelector('span').textContent='−1';ghost.hidden=false;
       ghost.style.left=`${event.clientX}px`;ghost.style.top=`${event.clientY-15}px`;
       document.body.classList.add('removing-cube');this.setDropTarget(active.id);
-      $('cube-trash').classList.toggle('is-over',this.overCubeTrash(event.clientX,event.clientY));
+      $('sugar-jar').classList.toggle('is-over',this.overSugarJar(event.clientX,event.clientY));
     });
     handle.addEventListener('pointerup',event=>{
       const active=this.removalDrag;if(!active||event.pointerId!==active.pointerId)return;
       event.stopPropagation();
       const moved=active.moved||Math.hypot(event.clientX-active.x,event.clientY-active.y)>7;
-      const remove=moved&&this.canRemoveCube(active.id)&&this.overCubeTrash(event.clientX,event.clientY);
+      const remove=moved&&this.canRemoveCube(active.id)&&this.overSugarJar(event.clientX,event.clientY);
       // Capture belongs to the stable pickup button through pointerup, so the
-      // resulting click cannot also activate the trash button underneath it.
+      // resulting click stays on its originating handle.
       this.finishCubeRemoval();
       if(remove){
         if(state.selectedId!==active.id)dispatch({type:'SELECT',id:active.id});
@@ -55943,7 +56110,7 @@ class FoodStage {
     handle.addEventListener('pointercancel',cancel);handle.addEventListener('lostpointercapture',cancel);
     handle.addEventListener('click',event=>{
       event.preventDefault();event.stopPropagation();
-      // Keyboard activation selects this row; the accessible trash button
+      // Keyboard activation selects this row; the accessible minus button
       // provides the same one-cube removal without requiring a drag gesture.
       if(event.detail===0&&this.canRemoveCube(id))dispatch({type:'SELECT',id});
     });
@@ -55974,8 +56141,8 @@ class FoodStage {
       const item=this.items.get(food.id),revealed=state.revealed.includes(food.id),count=revealed?food.answer:state.counts[food.id];
       item.label.classList.toggle('selected',food.id===state.selectedId);item.label.classList.toggle('revealed',revealed);
       item.label.querySelector('.lane-number').innerHTML=`${fmt(count)}<small>粒</small>`;
-      item.label.querySelector('.lane-caption').textContent=revealed?'示範等值':'你嘅估計';
-      item.label.querySelector('.guess-tag').textContent=revealed?`你估 ${fmt(state.counts[food.id])}`:'';
+      item.label.querySelector('.lane-caption').textContent=revealed?'示範等值':'你的估計';
+      item.label.querySelector('.guess-tag').textContent=revealed?`估計 ${fmt(state.counts[food.id])}`:'';
       if(item.renderCount!==count || item.renderRevealed!==revealed){
         this.animations=this.animations.filter(animation=>animation.id!==food.id);
         const oldCount=item.renderCount || 0;
@@ -56047,35 +56214,43 @@ class FoodStage {
   }
 }
 
-let drag=null,suppressClick=false;
-const source=$('cube-source'),ghost=$('drag-cube');
+let drag=null;
+const source=$('sugar-jar'),ghost=$('drag-cube');
+function finishSugarDrag() {
+  const active=drag;if(!active)return;
+  drag=null;ghost.hidden=true;source.classList.remove('is-dragging');
+  stageScene?.setDropTarget(null);
+  if(source.hasPointerCapture(active.pointerId))source.releasePointerCapture(active.pointerId);
+}
 source.addEventListener('pointerdown',event=>{
-  if(event.button!==0||!stageScene||drag||stageScene.removalDrag)return;
-  suppressClick=false;
+  if(event.button!==0||event.isPrimary===false||!stageScene||drag||stageScene.removalDrag)return;
   ghost.querySelector('span').textContent='＋1';
-  drag={x:event.clientX,y:event.clientY,moved:false,id:null,pointerId:event.pointerId};
+  drag={x:event.clientX,y:event.clientY,moved:false,pointerId:event.pointerId};
   source.setPointerCapture(event.pointerId);
 });
 source.addEventListener('pointermove',event=>{
   if(!drag||event.pointerId!==drag.pointerId)return;
   if(Math.hypot(event.clientX-drag.x,event.clientY-drag.y)>7)drag.moved=true;
   if(!drag.moved)return;
+  if(event.cancelable)event.preventDefault();
+  source.classList.add('is-dragging');
   ghost.hidden=false;ghost.style.left=`${event.clientX}px`;ghost.style.top=`${event.clientY-15}px`;
-  const id=stageScene.pointAt(event.clientX,event.clientY);drag.id=id;
-  stageScene.setDropTarget(id);
+  stageScene.setDropTarget(stageScene.pointAt(event.clientX,event.clientY));
 });
 source.addEventListener('pointerup',event=>{
   if(!drag||event.pointerId!==drag.pointerId)return;
-  suppressClick=drag.moved;
-  if(drag.moved){
-    const target=stageScene.pointAt(event.clientX,event.clientY);
-    if(target){const id=target;dispatch({type:'SELECT',id});dispatch({type:'ADD',id});}
-  }
-  ghost.hidden=true;stageScene?.setDropTarget(null);
-  if(source.hasPointerCapture(event.pointerId))source.releasePointerCapture(event.pointerId);drag=null;
+  const moved=drag.moved||Math.hypot(event.clientX-drag.x,event.clientY-drag.y)>7;
+  const target=moved?stageScene.pointAt(event.clientX,event.clientY):null;
+  finishSugarDrag();
+  if(target){dispatch({type:'SELECT',id:target});dispatch({type:'ADD',id:target});}
 });
-source.addEventListener('pointercancel',event=>{if(!drag||event.pointerId!==drag.pointerId)return;drag=null;suppressClick=false;ghost.hidden=true;stageScene?.setDropTarget(null);});
-source.addEventListener('click',()=>{if(!suppressClick){dispatch({type:'ADD'});}suppressClick=false;});
+const cancelSugarDrag=event=>{if(drag?.pointerId===event.pointerId)finishSugarDrag();};
+source.addEventListener('pointercancel',cancelSugarDrag);
+source.addEventListener('lostpointercapture',cancelSugarDrag);
+source.addEventListener('dragstart',event=>event.preventDefault());
+window.addEventListener('blur',finishSugarDrag);
+document.addEventListener('visibilitychange',()=>{if(document.hidden)finishSugarDrag();});
+document.addEventListener('keydown',event=>{if(event.key==='Escape'&&drag){event.preventDefault();finishSugarDrag();}});
 $('view-front').addEventListener('click',()=>stageScene?.setView('front'));
 $('view-top').addEventListener('click',()=>stageScene?.setView('top'));
 updateUI();
@@ -56086,7 +56261,7 @@ try {
 } catch(error) {
   console.error('3D scene initialization failed',error);
   $('loading').classList.add('error');
-  $('loading').innerHTML='<p>呢個瀏覽器暫時未能開啟 3D 畫面。<br>請用支援 WebGL 嘅 Chrome 或 Safari 重開。<br>食物選擇及加減按鈕仍可使用。</p>';
+  $('loading').innerHTML='<p>此瀏覽器暫時未能開啟 3D 畫面。<br>請用支援 WebGL 的 Chrome 或 Safari 重新開啟。<br>食物選擇及加減按鈕仍可使用。</p>';
   document.documentElement.dataset.ready='fallback';
 }
 
